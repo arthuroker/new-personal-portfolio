@@ -62,7 +62,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="flex items-center gap-2 mb-16 p-3 rounded-full bg-muted/50 backdrop-blur-sm">
-            <span className="text-muted-foreground px-2">arthur[at]email.virginia.edu</span>
+            <span className="text-muted-foreground px-2">arthuroker[at]email.virginia.edu</span>
             <Button
               variant="ghost"
               size="icon"
@@ -375,7 +375,7 @@ export default function Home() {
           </p>
           <AnimatedSection as="div" animation="scale-in" delay={100}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 p-4 border rounded-lg">
-              <span className="text-lg">arthur[at]email.virginia.edu</span>
+              <span className="text-lg">arthuroker[at]email.virginia.edu</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" asChild>
                   <a href="mailto:arthuroker@email.virginia.edu">
