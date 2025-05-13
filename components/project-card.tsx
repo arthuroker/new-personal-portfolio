@@ -29,6 +29,9 @@ export function ProjectCard({
           src={imageSrc}
           alt={imageAlt}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority={false}
+          loading="lazy"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>

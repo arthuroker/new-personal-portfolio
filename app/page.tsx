@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Copy, Mail, ArrowDown, Github, Linkedin, ExternalLink } from "lucide-react"
+import { Copy, Mail, ArrowDown, Github, Linkedin, ExternalLink, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,8 +9,11 @@ import { AnimatedSection } from "@/components/animated-section"
 import { ProjectCard } from "@/components/project-card"
 import { CopyEmailButton } from "@/components/CopyEmailButton"
 import { ExpandableText } from "@/components/expandable-text"
+import { useState } from "react"
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-background">
       {/* Sticky Header */}
@@ -38,27 +41,63 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Button variant="outline" size="icon" className="md:hidden">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
               <span className="sr-only">Toggle menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
-              >
-                <line x1="4" x2="20" y1="12" y2="12" />
-                <line x1="4" x2="20" y1="6" y2="6" />
-                <line x1="4" x2="20" y1="18" y2="18" />
-              </svg>
+              {isMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-primary/10 bg-background/95 backdrop-blur-md">
+            <nav className="container py-4 flex flex-col gap-4">
+              <a 
+                href="#about" 
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </a>
+              <a 
+                href="#projects" 
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Projects
+              </a>
+              <a 
+                href="#experience" 
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Experience
+              </a>
+              <Link 
+                href="/blog" 
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <a 
+                href="#contact" 
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </a>
+            </nav>
+          </div>
+        )}
       </header>
 
       <main className="container py-8 md:py-12">
