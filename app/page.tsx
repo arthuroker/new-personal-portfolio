@@ -361,6 +361,32 @@ export default function Home() {
                   </ul>
                 </div>
               </AnimatedSection>
+
+              <AnimatedSection
+                as="div"
+                className="flex gap-4"
+                animation="stagger-item"
+                staggerIndex={2}
+              >
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/alltechlogo.png"
+                    alt="All Tech Is Human Logo"
+                    width={48}
+                    height={48}
+                    className="object-contain scale-[1.5]"
+                  />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">Jan 2025 - Present</div>
+                  <h4 className="text-lg font-semibold mb-1">All Tech Is Human at UVA</h4>
+                  <div className="text-base mb-2">University of Virginia</div>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-2">
+                    <li>Philosophy Chair (Jan 2025 - Present)</li>
+                    <li>Treasurer (Jan 2025 - Present)</li>
+                  </ul>
+                </div>
+              </AnimatedSection>
             </div>
           </AnimatedSection>
         </AnimatedSection>
