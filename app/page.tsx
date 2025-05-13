@@ -391,6 +391,60 @@ export default function Home() {
           </AnimatedSection>
         </AnimatedSection>
 
+        {/* Current Interests & Reading Section */}
+        <AnimatedSection id="interests" className="py-12 md:py-16" animation="fade-up">
+          <h2 className="text-3xl font-bold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">
+            Current Interests & Reading
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* CS Interests */}
+            <AnimatedSection as="div" animation="fade-up" delay={100}>
+              <Card className="p-6 border-primary/10 bg-background/50 backdrop-blur-sm">
+                <h3 className="text-xl font-bold mb-4">Computer Science</h3>
+                <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                  <li>AI Agents and Agential Architecture</li>
+                  <li>RAG Systems</li>
+                  <li>Machine Learning</li>
+                </ul>
+              </Card>
+            </AnimatedSection>
+
+            {/* Philosophy Interests */}
+            <AnimatedSection as="div" animation="fade-up" delay={200}>
+              <Card className="p-6 border-primary/10 bg-background/50 backdrop-blur-sm">
+                <h3 className="text-xl font-bold mb-4">Philosophy</h3>
+                <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                  <li>Alignment of AI</li>
+                  <li>Superintelligence</li>
+                  <li>Consciousness in AI</li>
+                  <li>Political Philosophy</li>
+                </ul>
+              </Card>
+            </AnimatedSection>
+
+            {/* Currently Reading */}
+            <AnimatedSection as="div" animation="fade-up" delay={300} className="md:col-span-2">
+              <Card className="p-6 border-primary/10 bg-background/50 backdrop-blur-sm">
+                <h3 className="text-xl font-bold mb-4">Currently Reading</h3>
+                <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                  <li>
+                    <a 
+                      href="https://www.goodreads.com/book/show/44767248-human-compatible" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:text-primary transition-colors inline-flex items-center gap-1"
+                    >
+                      Human Compatible - Stuart Russell
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </li>
+                </ul>
+              </Card>
+            </AnimatedSection>
+          </div>
+        </AnimatedSection>
+
         {/* Contact Section */}
         <AnimatedSection id="contact" className="py-12 md:py-16" animation="fade-up">
           <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">
