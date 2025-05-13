@@ -305,7 +305,7 @@ export default function Home() {
                     alt="UVA Logo"
                     width={48}
                     height={48}
-                    className="object-contain"
+                    className="object-contain scale-[1.6]"
                   />
                 </div>
                 <div>
