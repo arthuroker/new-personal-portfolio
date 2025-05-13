@@ -160,7 +160,7 @@ export default function Home() {
               <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 hover:translate-y-[-8px] border-primary/10 bg-background/50 backdrop-blur-sm">
                 <div className="aspect-video relative">
                   <Image
-                    src="/textbookappscreenshot.jpg"
+                    src="/textbookappscreenshot.JPG"
                     alt="Textbook Lending Web Application"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -375,10 +375,10 @@ export default function Home() {
           </p>
           <AnimatedSection as="div" animation="scale-in" delay={100}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 p-4 border rounded-lg">
-              <span className="text-lg">arthur[at]example.com</span>
+              <span className="text-lg">arthur[at]email.virginia.edu</span>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" asChild>
-                  <a href="mailto:arthur@example.com">
+                  <a href="mailto:arthuroker@email.virginia.edu">
                     <Mail className="h-4 w-4 mr-2" />
                     Email
                   </a>
