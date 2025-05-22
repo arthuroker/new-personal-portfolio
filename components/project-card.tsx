@@ -11,6 +11,7 @@ interface ProjectCardProps {
   imageSrc: string
   imageAlt: string
   technologies: string[]
+  status?: string
 }
 
 export function ProjectCard({
@@ -19,6 +20,7 @@ export function ProjectCard({
   imageSrc,
   imageAlt,
   technologies,
+  status,
 }: ProjectCardProps) {
   return (
     <Card
@@ -36,6 +38,9 @@ export function ProjectCard({
         />
       </div>
       <div className="p-6">
+        {status && (
+          <Badge variant="destructive" className="mb-2">{status}</Badge>
+        )}
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <div className="mb-4">
           <ExpandableText text={description} maxLength={120} />

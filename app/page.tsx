@@ -87,6 +87,16 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <AnimatedSection as="div" animation="stagger-item" staggerIndex={0} threshold={0.1}>
+              <ProjectCard
+                title="CIO Connect"
+                description="A website for discovering clubs (CIOs) at UVA. Search with filters or use AI search powered by Groq API. Built with Python and FastAPI."
+                imageSrc="/cioconnect-screenshot.JPG"
+                imageAlt="CIO Connect Screenshot"
+                technologies={["Python", "FastAPI", "Groq API"]}
+                status="In Progress"
+              />
+            </AnimatedSection>
+            <AnimatedSection as="div" animation="stagger-item" staggerIndex={1} threshold={0.1}>
               <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 hover:translate-y-[-8px] border-primary/10 bg-background/50 backdrop-blur-sm">
                 <div className="aspect-video relative">
                   <Image
@@ -146,7 +156,7 @@ export default function Home() {
               </Card>
             </AnimatedSection>
 
-            <AnimatedSection as="div" animation="stagger-item" staggerIndex={1} threshold={0.1}>
+            <AnimatedSection as="div" animation="stagger-item" staggerIndex={2} threshold={0.1}>
               <ProjectCard
                 title="Investment Tracker Visualizer"
                 description="Developed a serverless stock data pipeline using Google Cloud Run, BigQuery, and Cloud Scheduler to automatically fetch and store financial data from Yahoo Finance."
@@ -156,7 +166,7 @@ export default function Home() {
               />
             </AnimatedSection>
 
-            <AnimatedSection as="div" animation="stagger-item" staggerIndex={2} threshold={0.1}>
+            <AnimatedSection as="div" animation="stagger-item" staggerIndex={3} threshold={0.1}>
               <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 hover:translate-y-[-8px] border-primary/10 bg-background/50 backdrop-blur-sm">
                 <div className="aspect-video relative">
                   <Image
@@ -193,7 +203,7 @@ export default function Home() {
               </Card>
             </AnimatedSection>
 
-            <AnimatedSection as="div" animation="stagger-item" staggerIndex={3} threshold={0.1}>
+            <AnimatedSection as="div" animation="stagger-item" staggerIndex={4} threshold={0.1}>
               <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 hover:translate-y-[-8px] border-primary/10 bg-background/50 backdrop-blur-sm">
                 <div className="aspect-video relative">
                   <Image
