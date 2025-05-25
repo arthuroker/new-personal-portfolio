@@ -89,7 +89,7 @@ export default function Home() {
             <AnimatedSection as="div" animation="stagger-item" staggerIndex={0} threshold={0.1}>
               <ProjectCard
                 title="CIO Connect"
-                description="A website for discovering clubs (CIOs) at UVA. Search with filters or use AI search powered by Groq API. Built with Python and FastAPI."
+                description="A website for discovering clubs (CIOs) at UVA. Developed a backend pipeline that transforms club data into OpenAI embeddings, stores them with FAISS, and enables fast semantic search via a REST API. Automated the full process from data ingestion to queryable vector search for student organizations."
                 imageSrc="/cioconnect-screenshot.JPG"
                 imageAlt="CIO Connect Screenshot"
                 technologies={["Python", "FastAPI", "Groq API"]}
