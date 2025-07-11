@@ -292,7 +292,12 @@ export default function Home() {
                   <h4 className="text-lg font-semibold mb-1">Technical Sales Intern</h4>
                   <div className="text-base mb-2">KEYENCE Corporation</div>
                   <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-2">
-                    <li>Incoming</li>
+                    <li>Ranked 5th out of 50 interns, peaking at 3rd, while averaging 210+ daily B2B cold calls and winning 4-stage sales
+competition (cold calling, technical pitching, objection handling, negotiation)</li>
+                    <li>Generated $100k+ in qualified applications by engaging directly with engineers and decision-makers on complex
+industrial automation solutions, including marking, labeling, traceability, and metrology systems</li>
+                    <li>Demonstrated technical agility by rapidly learning sophisticated product lines and translating technical features
+into quantifiable business value for prospective clients</li>
                   </ul>
                 </div>
               </AnimatedSection>
@@ -428,7 +433,6 @@ export default function Home() {
                   <li>Alignment of AI</li>
                   <li>Superintelligence</li>
                   <li>Consciousness in AI</li>
-                  <li>Political Philosophy</li>
                 </ul>
               </Card>
             </AnimatedSection>
@@ -440,12 +444,12 @@ export default function Home() {
                 <ul className="list-disc list-inside text-muted-foreground space-y-2">
                   <li>
                     <a 
-                      href="https://www.goodreads.com/book/show/44767248-human-compatible" 
+                      href="https://www.goodreads.com/book/show/20527133-superintelligence" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="hover:text-primary transition-colors inline-flex items-center gap-1"
                     >
-                      Human Compatible - Stuart Russell
+                      Superintelligence - Nick Bostrom
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   </li>
