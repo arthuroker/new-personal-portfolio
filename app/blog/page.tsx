@@ -98,7 +98,7 @@ export default function BlogPage() {
           <AnimatedSection className="mb-10" animation="fade-in">
             <Card className="p-6 border-primary/10 bg-background/50 backdrop-blur-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-4px]">
               <h2 className="text-2xl font-bold mb-2">Chat: Is This Real? How AI is Reshaping…</h2>
-              <p className="text-sm text-muted-foreground mb-3">June 2024</p>
+              <p className="text-sm text-muted-foreground mb-3">July 2025</p>
               <p className="mb-4">
                 The age of telling whether the media you see is AI or not is quickly passing. As generative AI systems like Veo 3 and Eleven Labs become increasingly capable, we are rapidly approaching what I call phenomenological equivalence: a point at which AI-generated media becomes indistinguishable from real-world media, at least from the standpoint of human perception.
               </p>
