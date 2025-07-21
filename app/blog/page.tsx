@@ -95,6 +95,25 @@ export default function BlogPage() {
           <h1 className="text-4xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400">
             Blog
           </h1>
+          <AnimatedSection className="mb-10" animation="fade-in">
+            <Card className="p-6 border-primary/10 bg-background/50 backdrop-blur-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-4px]">
+              <h2 className="text-2xl font-bold mb-2">Chat: Is This Real? How AI is Reshaping…</h2>
+              <p className="text-sm text-muted-foreground mb-3">June 2024</p>
+              <p className="mb-4">
+                The age of telling whether the media you see is AI or not is quickly passing. As generative AI systems like Veo 3 and Eleven Labs become increasingly capable, we are rapidly approaching what I call phenomenological equivalence: a point at which AI-generated media becomes indistinguishable from real-world media, at least from the standpoint of human perception.
+              </p>
+              <Button
+                variant="outline"
+                className="rounded-full transition-colors hover:bg-primary/10 hover:text-primary"
+                asChild
+              >
+                <a href="https://open.substack.com/pub/arthuroker/p/chat-is-this-real-how-ai-is-reshaping?r=2r90m1&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  Read the full post on Substack
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </Button>
+            </Card>
+          </AnimatedSection>
           <div className="mb-10 w-full max-w-[480px] mx-auto">
             <iframe 
               src="https://arthuroker.substack.com/embed" 
