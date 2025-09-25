@@ -1,10 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Golos_Text, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
+const golosText = Golos_Text({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {/* Font styling applied here to avoid hydration mismatch */}
-          <div className={inter.className}>
+          <div className={`${golosText.className}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
             {children}
           </div>
         </ThemeProvider>

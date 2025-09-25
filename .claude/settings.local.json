@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:alastairstrong.studio)",
+      "WebFetch(domain:www.giopandone.com)",
+      "WebFetch(domain:www.ephraimjoseph.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

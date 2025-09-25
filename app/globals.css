@@ -95,17 +95,19 @@ body {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400;
 }
 
-/* Enhanced animations for scroll effects */
-@keyframes fadeIn {
+/* Sleek animations */
+@keyframes fadeInUp {
   from {
     opacity: 0;
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes fadeUp {
+@keyframes fadeInStagger {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -116,47 +118,40 @@ body {
   }
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
+  .animate-fade-in-up {
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0;
   }
 
-  .animate-fade-up {
-    animation: fadeUp 0.8s ease-out forwards;
+  .animate-fade-in-stagger {
+    animation: fadeInStagger 0.8s ease-out forwards;
+    opacity: 0;
   }
 
-  .animate-scale-in {
-    animation: scaleIn 0.8s ease-out forwards;
+  .fade-in-scroll {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .animate-slide-in {
-    animation: slideIn 0.8s ease-out forwards;
+  .animate-delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .animate-delay-400 {
+    animation-delay: 0.4s;
   }
 }
 
