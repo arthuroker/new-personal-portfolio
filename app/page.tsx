@@ -55,7 +55,7 @@ export default function Home() {
       {/* Work Section */}
       <section id="work" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">SELECTED WORK</h2>
+          <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">SELECTED PROJECTS</h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             {/* CIO Connect */}
