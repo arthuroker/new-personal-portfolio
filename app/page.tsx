@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, Linkedin, ExternalLink, Mail } from "lucide-react"
+import { Github, Linkedin, ExternalLink, Mail, ChevronDown } from "lucide-react"
 
 export default function Home() {
   useEffect(() => {
@@ -26,6 +26,35 @@ export default function Home() {
 
     return () => observer.disconnect()
   }, [])
+
+  const scrollToWork = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const workSection = document.getElementById('work')
+    if (!workSection) return
+
+    const startPosition = window.scrollY
+    const targetPosition = workSection.getBoundingClientRect().top + window.scrollY
+    const distance = targetPosition - startPosition
+    const duration = 1500 // 1.5 seconds
+    let start: number | null = null
+
+    function animation(currentTime: number) {
+      if (start === null) start = currentTime
+      const timeElapsed = currentTime - start
+      const run = easeInOutQuad(timeElapsed, startPosition, distance, duration)
+      window.scrollTo(0, run)
+      if (timeElapsed < duration) requestAnimationFrame(animation)
+    }
+
+    function easeInOutQuad(t: number, b: number, c: number, d: number) {
+      t /= d / 2
+      if (t < 1) return c / 2 * t * t + b
+      t--
+      return -c / 2 * (t * (t - 2) - 1) + b
+    }
+
+    requestAnimationFrame(animation)
+  }
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -41,7 +70,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="min-h-screen flex items-center justify-center px-6">
+      <section className="min-h-screen flex items-center justify-center px-6 relative">
         <div className="text-center max-w-4xl">
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight mb-8 animate-fade-in-up">
             Arthur Oker
@@ -49,6 +78,15 @@ export default function Home() {
           <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-300">
             4th Year CS & Philosophy at the University of Virginia
           </p>
+        </div>
+
+        {/* Scroll Indicator */}
+
+        <div
+          onClick={scrollToWork}
+          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-neutral-400 animate-bounce opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
+        >
+          <ChevronDown className="w-6 h-6 md:w-8 md:h-8" />
         </div>
       </section>
 
@@ -179,10 +217,24 @@ export default function Home() {
           <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">EXPERIENCE</h2>
 
           <div className="space-y-16">
+            {/* SZNS Solutions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
+              <div className="text-sm text-neutral-500">
+                <div>Incoming June 2026</div>
+                <div>SZNS Solutions</div>
+              </div>
+              <div className="md:col-span-2">
+                <h3 className="text-lg font-medium mb-3">Incoming Sales Development Representative</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                  Incoming SDR at a premier Google Cloud Partner specializing in applied AI, web3, and cloud computing solutions.
+                </p>
+              </div>
+            </div>
+
             {/* Anthropic */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
-                <div>Aug 2025 - Present</div>
+                <div>Aug 2025 - November 2026</div>
                 <div>Anthropic</div>
               </div>
               <div className="md:col-span-2">
