@@ -1,9 +1,43 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Github, Linkedin, ExternalLink, Mail, ChevronDown } from "lucide-react"
+
+const AnimatedName = ({ name }: { name: string }) => {
+  const [isVisible, setIsVisible] = useState(false)
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 300)
+    return () => clearTimeout(timer)
+  }, [])
+  
+  return (
+    <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight mb-8">
+      {name.split('').map((letter, index) => (
+        <span
+          key={index}
+          className="inline-block transition-all duration-700 ease-out"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: `translateY(${isVisible ? '0' : '30px'})`,
+            transitionDelay: `${index * 50}ms`
+          }}
+        >
+          {letter === ' ' ? '\u00A0' : letter}
+        </span>
+      ))}
+      <span 
+        className="block mt-2 h-0.5 bg-gradient-to-r from-transparent via-neutral-900 to-transparent dark:via-neutral-100 transition-all duration-1000 ease-out"
+        style={{
+          width: isVisible ? '100%' : '0%',
+          transitionDelay: '600ms'
+        }}
+      />
+    </h1>
+  )
+}
 
 export default function Home() {
   useEffect(() => {
@@ -71,11 +105,9 @@ export default function Home() {
 
       {/* Hero */}
       <section className="min-h-screen flex items-center justify-center px-6 relative">
-        <div className="text-center max-w-4xl">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight mb-8 animate-fade-in-up">
-            Arthur Oker
-          </h1>
-          <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-300">
+        <div className="text-center max-w-4xl relative z-20">
+          <AnimatedName name="Arthur Oker" />
+          <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-300 relative z-20">
             4th Year CS & Philosophy at the University of Virginia
           </p>
         </div>
@@ -221,7 +253,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
                 <div>Incoming June 2026</div>
-                <div>SZNS Solutions</div>
+                <div><Link href="https://www.szns.solutions/" target="_blank" className="hover:opacity-60 transition-opacity underline">SZNS Solutions</Link></div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-lg font-medium mb-3">Incoming Sales Development Representative</h3>
@@ -235,12 +267,13 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
                 <div>Aug 2025 - November 2026</div>
-                <div>Anthropic</div>
+                <div><Link href="https://www.anthropic.com/" target="_blank" className="hover:opacity-60 transition-opacity underline">Anthropic</Link></div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-lg font-medium mb-3">Claude Builder Ambassador</h3>
                 <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
-                  Founded the Claude Builders Club at UVA.
+                  Founded the Claude Builders Club at UVA.<br />
+                  Organized and hosted a hackathon with $3,500+ in prizes and 150+ participants.
                 </p>
               </div>
             </div>
@@ -249,7 +282,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
                 <div>May 2025 - June 2025</div>
-                <div>KEYENCE Corporation</div>
+                <div><Link href="https://www.keyence.com/" target="_blank" className="hover:opacity-60 transition-opacity underline">KEYENCE Corporation</Link></div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-lg font-medium mb-3">Technical Sales Intern</h3>
@@ -264,7 +297,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
                 <div>Aug 2022 - May 2026</div>
-                <div>University of Virginia</div>
+                <div><Link href="https://www.virginia.edu/" target="_blank" className="hover:opacity-60 transition-opacity underline">University of Virginia</Link></div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-lg font-medium mb-3">BA Computer Science & BA Philosophy</h3>
@@ -274,7 +307,7 @@ export default function Home() {
                 <div className="text-xs text-neutral-500 space-y-1">
                   <div>Claude Builders Club — Co-President, Co-Founder</div>
                   <div>Student Game Developers — Director, Treasurer</div>
-                  <div>All Tech Is Human — Philosophy Chair, Treasurer</div>
+                  <div>Societal AI — Workshop Lead, Philosophy Chair</div>
                 </div>
               </div>
             </div>

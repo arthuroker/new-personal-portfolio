@@ -118,6 +118,88 @@ body {
   }
 }
 
+@keyframes gradientShift {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(-20px, -20px) rotate(1deg);
+  }
+  66% {
+    transform: translate(20px, -10px) rotate(-1deg);
+  }
+}
+
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: 3000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Starfield animations */
+@keyframes starsMove1 {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-2000px) translateX(-500px);
+  }
+}
+
+@keyframes starsMove2 {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-1500px) translateX(300px);
+  }
+}
+
+@keyframes starsMove3 {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-1000px) translateX(-200px);
+  }
+}
+
+.stars-layer-1 {
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent);
+  background-size: 200% 200%;
+  animation: starsMove1 120s linear infinite;
+}
+
+.stars-layer-2 {
+  background-image: 
+    radial-gradient(1px 1px at 10% 40%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 40% 60%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 30% 80%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 85% 50%, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 150% 150%;
+  animation: starsMove2 80s linear infinite;
+}
+
+.stars-layer-3 {
+  background-image: 
+    radial-gradient(1px 1px at 25% 25%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 75% 75%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 50% 10%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 15% 65%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.3), transparent);
+  background-size: 100% 100%;
+  animation: starsMove3 60s linear infinite;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
