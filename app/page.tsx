@@ -252,11 +252,11 @@ export default function Home() {
             {/* SZNS Solutions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
-                <div>Incoming June 2026</div>
+                <div>June 2026</div>
                 <div><Link href="https://www.szns.solutions/" target="_blank" className="hover:opacity-60 transition-opacity underline">SZNS Solutions</Link></div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-3">Incoming Sales Development Representative</h3>
+                <h3 className="text-lg font-medium mb-3">Sales Development Representative</h3>
                 <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
                   Incoming SDR at a premier Google Cloud Partner specializing in applied AI, web3, and cloud computing solutions.
                 </p>
@@ -266,7 +266,7 @@ export default function Home() {
             {/* Anthropic */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
               <div className="text-sm text-neutral-500">
-                <div>Aug 2025 - November 2026</div>
+                <div>Aug 2025 - December 2025</div>
                 <div><Link href="https://www.anthropic.com/" target="_blank" className="hover:opacity-60 transition-opacity underline">Anthropic</Link></div>
               </div>
               <div className="md:col-span-2">
@@ -323,14 +323,8 @@ export default function Home() {
             <div>
               <div className="text-lg mb-2">arthuroker@email.virginia.edu</div>
               <div className="flex gap-6 text-sm">
-                <Link href="https://github.com/arthuroker" target="_blank" className="underline">
-                  GitHub
-                </Link>
                 <Link href="https://www.linkedin.com/in/arthuroker/" target="_blank" className="underline">
                   LinkedIn
-                </Link>
-                <Link href="https://arthuroker.substack.com" target="_blank" className="underline">
-                  Writing
                 </Link>
               </div>
             </div>
