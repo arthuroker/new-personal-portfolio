@@ -28,9 +28,5 @@ jobs:
     - name: Run npm audit
       run: npm audit --audit-level=moderate
       
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/node@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=high
+    # Snyk step removed - npm audit already covers vulnerability scanning
+    # To re-enable, add SNYK_TOKEN to repository secrets
