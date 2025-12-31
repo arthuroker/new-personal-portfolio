@@ -185,7 +185,7 @@ export default function CinematicHero() {
           {/* Tagline with blur reveal */}
           <p
             className={`text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 font-light max-w-2xl ${
-              prefersReducedMotion ? 'opacity-100' : 'opacity-0 animate-[blurReveal_0.8s_cubic-bezier(0.16,1,0.3,1)_2s_forwards]'
+              prefersReducedMotion ? 'opacity-100' : 'opacity-0 animate-[blurReveal_1s_cubic-bezier(0.16,1,0.3,1)_1.6s_forwards]'
             }`}
           >
             4th Year CS & Philosophy at the University of Virginia
@@ -194,7 +194,7 @@ export default function CinematicHero() {
           {/* Description with delayed fade */}
           <p
             className={`text-base text-neutral-500 dark:text-neutral-500 max-w-xl leading-relaxed ${
-              prefersReducedMotion ? 'opacity-100' : 'opacity-0 animate-[fadeInUp_0.8s_cubic-bezier(0.16,1,0.3,1)_2.6s_forwards]'
+              prefersReducedMotion ? 'opacity-100' : 'opacity-0 animate-[fadeInUp_1s_cubic-bezier(0.16,1,0.3,1)_2.2s_forwards]'
             }`}
           >
             Incoming Sales Development Representative @ SZNS Solutions
@@ -204,33 +204,30 @@ export default function CinematicHero() {
 
       {/* Scroll indicator */}
       <div
-        className={`absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 ${
-          prefersReducedMotion ? 'opacity-60' : 'opacity-0 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_3.2s_forwards]'
+        className={`absolute bottom-12 left-1/2 -translate-x-1/2 ${
+          prefersReducedMotion ? 'opacity-30' : 'opacity-0 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_3.2s_forwards]'
         }`}
         style={
           prefersReducedMotion
             ? undefined
-            : { opacity: scrollProgress > 0 ? Math.max(0, 0.6 - scrollProgress * 2) : undefined }
+            : { opacity: scrollProgress > 0 ? Math.max(0, 0.3 - scrollProgress * 1.5) : undefined }
         }
         aria-hidden="true"
       >
-        <span className="text-xs font-light text-neutral-400 tracking-widest uppercase">Scroll</span>
-        <div className="relative h-8 overflow-hidden">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-neutral-400 animate-[scrollBounce_2s_ease-in-out_infinite]"
-          >
-            <path d="M7 13l5 5 5-5" />
-            <path d="M7 7l5 5 5-5" />
-          </svg>
-        </div>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-neutral-400 animate-[scrollBounce_2s_ease-in-out_infinite]"
+        >
+          <path d="M7 13l5 5 5-5" />
+          <path d="M7 7l5 5 5-5" />
+        </svg>
       </div>
     </section>
   )
