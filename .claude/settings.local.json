@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:alastairstrong.studio)",
       "WebFetch(domain:www.giopandone.com)",
-      "WebFetch(domain:www.ephraimjoseph.com)"
+      "WebFetch(domain:www.ephraimjoseph.com)",
+      "Bash(npx tsc:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

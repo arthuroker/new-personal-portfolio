@@ -3,53 +3,24 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, Linkedin, ExternalLink, Mail, ChevronDown } from "lucide-react"
-
-const AnimatedName = ({ name }: { name: string }) => {
-  const [isVisible, setIsVisible] = useState(false)
-  
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 300)
-    return () => clearTimeout(timer)
-  }, [])
-  
-  return (
-    <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight mb-8">
-      {name.split('').map((letter, index) => (
-        <span
-          key={index}
-          className="inline-block transition-all duration-700 ease-out"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: `translateY(${isVisible ? '0' : '30px'})`,
-            transitionDelay: `${index * 50}ms`
-          }}
-        >
-          {letter === ' ' ? '\u00A0' : letter}
-        </span>
-      ))}
-      <span 
-        className="block mt-2 h-0.5 bg-gradient-to-r from-transparent via-neutral-900 to-transparent dark:via-neutral-100 transition-all duration-1000 ease-out"
-        style={{
-          width: isVisible ? '100%' : '0%',
-          transitionDelay: '600ms'
-        }}
-      />
-    </h1>
-  )
-}
+import CinematicHero from "@/components/hero/CinematicHero"
 
 export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false)
+
   useEffect(() => {
+    // Scroll observer for fade-in animations
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px 0px -100px 0px'
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-stagger')
+          const element = entry.target as HTMLElement
+          element.style.opacity = '1'
+          element.style.transform = 'translateY(0)'
         }
       })
     }, observerOptions)
@@ -58,93 +29,67 @@ export default function Home() {
     const elementsToObserve = document.querySelectorAll('.fade-in-scroll')
     elementsToObserve.forEach((el) => observer.observe(el))
 
-    return () => observer.disconnect()
-  }, [])
-
-  const scrollToWork = (e: React.MouseEvent) => {
-    e.preventDefault()
-    const workSection = document.getElementById('work')
-    if (!workSection) return
-
-    const startPosition = window.scrollY
-    const targetPosition = workSection.getBoundingClientRect().top + window.scrollY
-    const distance = targetPosition - startPosition
-    const duration = 1500 // 1.5 seconds
-    let start: number | null = null
-
-    function animation(currentTime: number) {
-      if (start === null) start = currentTime
-      const timeElapsed = currentTime - start
-      const run = easeInOutQuad(timeElapsed, startPosition, distance, duration)
-      window.scrollTo(0, run)
-      if (timeElapsed < duration) requestAnimationFrame(animation)
+    // Header scroll effect
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
     }
 
-    function easeInOutQuad(t: number, b: number, c: number, d: number) {
-      t /= d / 2
-      if (t < 1) return c / 2 * t * t + b
-      t--
-      return -c / 2 * (t * (t - 2) - 1) + b
-    }
+    window.addEventListener('scroll', handleScroll)
 
-    requestAnimationFrame(animation)
-  }
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [isScrolled])
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 p-6">
-        <nav className="flex justify-between items-center">
-          <div className="text-sm tracking-wider">ARTHUR OKER</div>
-          <div className="flex gap-8 text-sm">
-            <Link href="#work" className="hover:opacity-60 transition-opacity">Work</Link>
-            <Link href="#experience" className="hover:opacity-60 transition-opacity">Experience</Link>
-            <Link href="#contact" className="hover:opacity-60 transition-opacity">Contact</Link>
+      <header className={`fixed top-0 w-full z-50 p-6 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-background/95 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800'
+          : 'bg-transparent border-b border-transparent'
+      }`}>
+        <nav className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="text-sm font-light tracking-tight">Arthur Oker</div>
+          <div className="flex gap-8 text-sm font-light">
+            <Link href="#work" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">Work</Link>
+            <Link href="#experience" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">Experience</Link>
+            <Link href="#contact" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">Contact</Link>
           </div>
         </nav>
       </header>
 
       {/* Hero */}
-      <section className="min-h-screen flex items-center justify-center px-6 relative">
-        <div className="text-center max-w-4xl relative z-20">
-          <AnimatedName name="Arthur Oker" />
-          <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-300 relative z-20">
-            4th Year CS & Philosophy at the University of Virginia
-          </p>
-        </div>
+      <CinematicHero />
 
-        {/* Scroll Indicator */}
-
-        <div
-          onClick={scrollToWork}
-          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-neutral-400 animate-bounce opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
-        >
-          <ChevronDown className="w-6 h-6 md:w-8 md:h-8" />
-        </div>
-      </section>
+      {/* Subtle section divider */}
+      <div className="relative h-px mx-auto max-w-xs">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent opacity-40" />
+      </div>
 
       {/* Work Section */}
-      <section id="work" className="py-24 px-6">
+      <section id="work" className="pt-32 pb-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">SELECTED PROJECTS</h2>
+          <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-200 mb-12 fade-in-scroll">Selected Projects</h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* CIO Connect */}
             <div className="group fade-in-scroll">
-              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-6 overflow-hidden">
+              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-5 overflow-hidden rounded-sm">
                 <Image
                   src="/cioconnect-screenshot.JPG"
                   alt="CIO Connect"
                   width={800}
                   height={600}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-medium">CIO Connect</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <div className="space-y-2">
+                <h3 className="text-lg font-light">CIO Connect</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Semantic search platform for UVA clubs using OpenAI embeddings and FAISS
                 </p>
-                <div className="flex gap-4 text-xs text-neutral-500">
+                <div className="flex gap-3 text-xs text-neutral-500 font-light pt-1">
                   <span>Python</span>
                   <span>FastAPI</span>
                   <span>Google Cloud</span>
@@ -154,31 +99,31 @@ export default function Home() {
 
             {/* PhilQuery */}
             <div className="group fade-in-scroll">
-              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-6 overflow-hidden">
+              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-5 overflow-hidden rounded-sm">
                 <Image
                   src="/Phil Query ScreenShot.JPG"
                   alt="PhilQuery"
                   width={800}
                   height={600}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-medium">PhilQuery</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <div className="space-y-2">
+                <h3 className="text-lg font-light">PhilQuery</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   RAG-powered AI philosophy assistant with vector search
                 </p>
-                <div className="flex gap-4 text-xs text-neutral-500">
+                <div className="flex gap-3 text-xs text-neutral-500 font-light pt-1">
                   <span>Python</span>
                   <span>Streamlit</span>
                   <span>FAISS</span>
                 </div>
                 <div className="flex gap-3 pt-2">
-                  <Link href="https://phil-query.streamlit.app/" target="_blank" className="text-xs underline">
-                    View Project
+                  <Link href="https://phil-query.streamlit.app/" target="_blank" className="text-xs font-light hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                    View Project →
                   </Link>
-                  <Link href="https://github.com/arthuroker/PhilQuery" target="_blank" className="text-xs underline">
-                    GitHub
+                  <Link href="https://github.com/arthuroker/PhilQuery" target="_blank" className="text-xs font-light hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                    GitHub →
                   </Link>
                 </div>
               </div>
@@ -186,21 +131,21 @@ export default function Home() {
 
             {/* Investment Tracker */}
             <div className="group fade-in-scroll">
-              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-6 overflow-hidden">
+              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-5 overflow-hidden rounded-sm">
                 <Image
                   src="/investment-tracker-image.jpeg"
                   alt="Investment Tracker"
                   width={800}
                   height={600}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-medium">Investment Tracker</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <div className="space-y-2">
+                <h3 className="text-lg font-light">Investment Tracker</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Serverless stock data pipeline with automated data collection
                 </p>
-                <div className="flex gap-4 text-xs text-neutral-500">
+                <div className="flex gap-3 text-xs text-neutral-500 font-light pt-1">
                   <span>Python</span>
                   <span>Google Cloud</span>
                   <span>BigQuery</span>
@@ -210,31 +155,31 @@ export default function Home() {
 
             {/* Cosaint */}
             <div className="group fade-in-scroll">
-              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-6 overflow-hidden">
+              <div className="aspect-[4/3] bg-neutral-100 dark:bg-neutral-900 mb-5 overflow-hidden rounded-sm">
                 <Image
                   src="/COSAINT.png"
                   alt="Cosaint"
                   width={800}
                   height={600}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-medium">Cosaint</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+              <div className="space-y-2">
+                <h3 className="text-lg font-light">Cosaint</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Unity tower defense game with AI pathfinding systems
                 </p>
-                <div className="flex gap-4 text-xs text-neutral-500">
+                <div className="flex gap-3 text-xs text-neutral-500 font-light pt-1">
                   <span>Unity</span>
                   <span>C#</span>
                   <span>NavMesh</span>
                 </div>
                 <div className="flex gap-3 pt-2">
-                  <Link href="https://arthuroker.itch.io/cosaint" target="_blank" className="text-xs underline">
-                    Play Game
+                  <Link href="https://arthuroker.itch.io/cosaint" target="_blank" className="text-xs font-light hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                    Play Game →
                   </Link>
-                  <Link href="https://github.com/UVASGD/spring-2025-cosaint" target="_blank" className="text-xs underline">
-                    GitHub
+                  <Link href="https://github.com/UVASGD/spring-2025-cosaint" target="_blank" className="text-xs font-light hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                    GitHub →
                   </Link>
                 </div>
               </div>
@@ -244,34 +189,34 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-24 px-6 border-t border-neutral-200 dark:border-neutral-800">
+      <section id="experience" className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">EXPERIENCE</h2>
+          <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-200 mb-12 fade-in-scroll">Experience</h2>
 
-          <div className="space-y-16">
+          <div className="space-y-12">
             {/* SZNS Solutions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
-              <div className="text-sm text-neutral-500">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
+              <div className="text-sm text-neutral-500 font-light">
                 <div>June 2026</div>
-                <div><Link href="https://www.szns.solutions/" target="_blank" className="hover:opacity-60 transition-opacity underline">SZNS Solutions</Link></div>
+                <div><Link href="https://www.szns.solutions/" target="_blank" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">SZNS Solutions</Link></div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-3">Sales Development Representative</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                <h3 className="text-base font-light mb-2">Sales Development Representative</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Incoming SDR at a premier Google Cloud Partner specializing in applied AI, web3, and cloud computing solutions.
                 </p>
               </div>
             </div>
 
             {/* Anthropic */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
-              <div className="text-sm text-neutral-500">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
+              <div className="text-sm text-neutral-500 font-light">
                 <div>Aug 2025 - December 2025</div>
-                <div><Link href="https://www.anthropic.com/" target="_blank" className="hover:opacity-60 transition-opacity underline">Anthropic</Link></div>
+                <div><Link href="https://www.anthropic.com/" target="_blank" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">Anthropic</Link></div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-3">Claude Builder Ambassador</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                <h3 className="text-base font-light mb-2">Claude Builder Ambassador</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Founded the Claude Builders Club at UVA.<br />
                   Organized and hosted a hackathon with $3,500+ in prizes and 150+ participants.
                 </p>
@@ -279,14 +224,14 @@ export default function Home() {
             </div>
 
             {/* KEYENCE */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
-              <div className="text-sm text-neutral-500">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
+              <div className="text-sm text-neutral-500 font-light">
                 <div>May 2025 - June 2025</div>
-                <div><Link href="https://www.keyence.com/" target="_blank" className="hover:opacity-60 transition-opacity underline">KEYENCE Corporation</Link></div>
+                <div><Link href="https://www.keyence.com/" target="_blank" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">KEYENCE Corporation</Link></div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-3">Technical Sales Intern</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                <h3 className="text-base font-light mb-2">Technical Sales Intern</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light">
                   Ranked 5th out of 50 interns while averaging 210+ daily B2B cold calls.<br />
                   Generated $100k+ in qualified applications for industrial automation solutions.
                 </p>
@@ -294,17 +239,17 @@ export default function Home() {
             </div>
 
             {/* UVA */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in-scroll">
-              <div className="text-sm text-neutral-500">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
+              <div className="text-sm text-neutral-500 font-light">
                 <div>Aug 2022 - May 2026</div>
-                <div><Link href="https://www.virginia.edu/" target="_blank" className="hover:opacity-60 transition-opacity underline">University of Virginia</Link></div>
+                <div><Link href="https://www.virginia.edu/" target="_blank" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">University of Virginia</Link></div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-3">BA Computer Science & BA Philosophy</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-3">
+                <h3 className="text-base font-light mb-2">BA Computer Science & BA Philosophy</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light mb-3">
                   GPA: 3.841/4.0
                 </p>
-                <div className="text-xs text-neutral-500 space-y-1">
+                <div className="text-xs text-neutral-500 font-light space-y-1">
                   <div>Claude Builders Club — Co-President, Co-Founder</div>
                   <div>Student Game Developers — Director, Treasurer</div>
                   <div>Societal AI — Workshop Lead, Philosophy Chair</div>
@@ -318,15 +263,13 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-sm tracking-widest text-neutral-500 mb-16 fade-in-scroll">CONTACT</h2>
-          <div className="space-y-8 fade-in-scroll">
-            <div>
-              <div className="text-lg mb-2">arthuroker@email.virginia.edu</div>
-              <div className="flex gap-6 text-sm">
-                <Link href="https://www.linkedin.com/in/arthuroker/" target="_blank" className="underline">
-                  LinkedIn
-                </Link>
-              </div>
+          <h2 className="text-2xl font-light text-neutral-800 dark:text-neutral-200 mb-6 fade-in-scroll">Contact</h2>
+          <div className="fade-in-scroll">
+            <div className="text-base font-light mb-2">arthuroker@email.virginia.edu</div>
+            <div className="flex gap-6 text-sm font-light">
+              <Link href="https://www.linkedin.com/in/arthuroker/" target="_blank" className="hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                LinkedIn →
+              </Link>
             </div>
           </div>
         </div>

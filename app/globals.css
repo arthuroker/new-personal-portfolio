@@ -95,11 +95,11 @@ body {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400;
 }
 
-/* Sleek animations */
+/* Hero animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -118,86 +118,70 @@ body {
   }
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  33% {
-    transform: translate(-20px, -20px) rotate(1deg);
-  }
-  66% {
-    transform: translate(20px, -10px) rotate(-1deg);
-  }
-}
-
-@keyframes drawLine {
+@keyframes expandLine {
   0% {
-    stroke-dashoffset: 3000;
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    stroke-dashoffset: 0;
+    width: min(600px, 80vw);
+    opacity: 0;
   }
 }
 
-/* Starfield animations */
-@keyframes starsMove1 {
-  from {
-    transform: translateY(0) translateX(0);
+@keyframes expandLineLeft {
+  0% {
+    width: 0;
+    opacity: 0;
   }
-  to {
-    transform: translateY(-2000px) translateX(-500px);
+  10% {
+    opacity: 0.4;
   }
-}
-
-@keyframes starsMove2 {
-  from {
-    transform: translateY(0) translateX(0);
+  30% {
+    opacity: 1;
   }
-  to {
-    transform: translateY(-1500px) translateX(300px);
+  65% {
+    width: 100%;
+    opacity: 1;
   }
-}
-
-@keyframes starsMove3 {
-  from {
-    transform: translateY(0) translateX(0);
+  85% {
+    width: 100%;
+    opacity: 0.6;
   }
-  to {
-    transform: translateY(-1000px) translateX(-200px);
+  100% {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(20px);
   }
 }
 
-.stars-layer-1 {
-  background-image: 
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(2px 2px at 60% 70%, white, transparent),
-    radial-gradient(1px 1px at 50% 50%, white, transparent),
-    radial-gradient(1px 1px at 80% 10%, white, transparent),
-    radial-gradient(2px 2px at 90% 60%, white, transparent);
-  background-size: 200% 200%;
-  animation: starsMove1 120s linear infinite;
+@keyframes revealChar {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
-.stars-layer-2 {
-  background-image: 
-    radial-gradient(1px 1px at 10% 40%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 40% 60%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 30% 80%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 85% 50%, rgba(255, 255, 255, 0.5), transparent);
-  background-size: 150% 150%;
-  animation: starsMove2 80s linear infinite;
-}
-
-.stars-layer-3 {
-  background-image: 
-    radial-gradient(1px 1px at 25% 25%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(1px 1px at 75% 75%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(1px 1px at 50% 10%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(1px 1px at 15% 65%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.3), transparent);
-  background-size: 100% 100%;
-  animation: starsMove3 60s linear infinite;
+@keyframes blurReveal {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 @layer utilities {
@@ -206,7 +190,7 @@ body {
   }
 
   .animate-fade-in-up {
-    animation: fadeInUp 1.2s ease-out forwards;
+    animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
   }
 
@@ -218,6 +202,7 @@ body {
   .fade-in-scroll {
     opacity: 0;
     transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   }
 
   .animate-delay-100 {
@@ -234,6 +219,25 @@ body {
 
   .animate-delay-400 {
     animation-delay: 0.4s;
+  }
+
+  /* Accessibility: disable animations for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Ensure content is immediately visible */
+    .opacity-0 {
+      opacity: 1 !important;
+    }
+
+    span[style*="animation"] {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
   }
 }
 
