@@ -247,7 +247,7 @@ export default function Home() {
               <div className="md:col-span-2">
                 <h3 className="text-base font-light mb-2">BA Computer Science & BA Philosophy</h3>
                 <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed font-light mb-3">
-                  GPA: 3.841/4.0
+                  GPA: 3.852/4.0
                 </p>
                 <div className="text-xs text-neutral-500 font-light space-y-1">
                   <div>Claude Builders Club — Co-President, Co-Founder</div>

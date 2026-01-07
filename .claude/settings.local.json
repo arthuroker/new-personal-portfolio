@@ -5,7 +5,15 @@
       "WebFetch(domain:www.giopandone.com)",
       "WebFetch(domain:www.ephraimjoseph.com)",
       "Bash(npx tsc:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(pnpm install)",
+      "Bash(npm install)",
+      "Bash(corepack enable:*)",
+      "Bash(corepack prepare:*)",
+      "Bash(npx pnpm install)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
