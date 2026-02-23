@@ -23,7 +23,7 @@ export default function AboutPage() {
 
             <p>
               My interests sit at the intersection of technology and the questions it raises: what we build,
-              why we build it, and what it means. I'm drawn to AI and topics like superintelligence, how it might develop, how it can be to everyone's benefit, 
+              why we build it, and what it means. I'm drawn to topics in AI, how it might develop, how it can be to everyone's benefit, 
               and what it tells us about humanity.
             </p>
 
@@ -34,7 +34,7 @@ export default function AboutPage() {
             </p>
 
             <p>
-              This site is where I collect that work.
+              This site is where I collect some of that work.
             </p>
           </div>
 
