@@ -54,61 +54,56 @@ export default function AgencyHero() {
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
         <div className="text-center" style={{ marginLeft: '2%' }}>
 
-          {/* Name — parallax wrapper + ambient breath */}
+          {/* Name — parallax wrapper */}
           <motion.div style={{ x: parallaxX, y: parallaxY }}>
-            <motion.div
-              animate={shouldReduceMotion ? {} : { y: [0, -3, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[0.2em] text-foreground"
+              aria-label="Arthur Oker"
             >
-              <h1
-                className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[0.2em] text-foreground"
-                aria-label="Arthur Oker"
-              >
-                {WORDS.map((word, wi) => {
-                  const chars = word.split('')
-                  // Each word's chars stagger from a base delay
-                  // "Arthur" starts at 0.3s, "Oker" starts at 0.85s
-                  const wordBase = wi === 0 ? 0.3 : 0.85
+              {WORDS.map((word, wi) => {
+                const chars = word.split('')
+                // Each word's chars stagger from a base delay
+                // "Arthur" starts at 0.3s, "Oker" starts at 0.85s
+                const wordBase = wi === 0 ? 0.3 : 0.85
 
-                  return (
-                    <span key={wi} className="inline-block">
-                      {chars.map((char, ci) => {
-                        const delay = wordBase + ci * 0.055
-                        return (
-                          <span
-                            key={ci}
-                            className="inline-block overflow-hidden"
-                            style={{ verticalAlign: 'bottom' }}
-                            aria-hidden="true"
+                return (
+                  <span key={wi} className="inline-block">
+                    {chars.map((char, ci) => {
+                      const delay = wordBase + ci * 0.055
+                      return (
+                        <span
+                          key={ci}
+                          className="inline-block overflow-hidden"
+                          style={{ verticalAlign: 'bottom' }}
+                          aria-hidden="true"
+                        >
+                          <motion.span
+                            className="inline-block"
+                            initial={shouldReduceMotion ? {} : { y: '115%' }}
+                            animate={{ y: '0%' }}
+                            transition={
+                              shouldReduceMotion
+                                ? { duration: 0 }
+                                : {
+                                    duration: 0.9,
+                                    ease: [0.22, 1, 0.36, 1],
+                                    delay,
+                                  }
+                            }
                           >
-                            <motion.span
-                              className="inline-block"
-                              initial={shouldReduceMotion ? {} : { y: '115%' }}
-                              animate={{ y: '0%' }}
-                              transition={
-                                shouldReduceMotion
-                                  ? { duration: 0 }
-                                  : {
-                                      duration: 0.9,
-                                      ease: [0.22, 1, 0.36, 1],
-                                      delay,
-                                    }
-                              }
-                            >
-                              {char}
-                            </motion.span>
-                          </span>
-                        )
-                      })}
-                      {/* Space between words */}
-                      {wi < WORDS.length - 1 && (
-                        <span style={{ display: 'inline-block', width: '0.35em' }} />
-                      )}
-                    </span>
-                  )
-                })}
-              </h1>
-            </motion.div>
+                            {char}
+                          </motion.span>
+                        </span>
+                      )
+                    })}
+                    {/* Space between words */}
+                    {wi < WORDS.length - 1 && (
+                      <span style={{ display: 'inline-block', width: '0.35em' }} />
+                    )}
+                  </span>
+                )
+              })}
+            </h1>
           </motion.div>
 
           {/* Gradient accent line */}

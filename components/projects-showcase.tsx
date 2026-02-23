@@ -73,6 +73,7 @@ const projects: Project[] = [
 export function ProjectsShowcase() {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeProject, setActiveProject] = useState(0)
   const [isInView, setIsInView] = useState(false)
@@ -105,10 +106,17 @@ export function ProjectsShowcase() {
       const progress = maxScroll > 0 ? scrollLeft / maxScroll : 0
       setScrollProgress(progress)
 
-      // Calculate active project based on scroll position
-      const projectWidth = scrollContainer.scrollWidth / projects.length
-      const active = Math.round(scrollLeft / projectWidth)
-      setActiveProject(Math.min(active, projects.length - 1))
+      // Find the item closest to the center of the viewport
+      const centerX = scrollContainer.getBoundingClientRect().left + scrollContainer.clientWidth / 2
+      let closest = 0
+      let minDist = Infinity
+      itemsRef.current.forEach((item, i) => {
+        if (!item) return
+        const itemCenter = item.getBoundingClientRect().left + item.clientWidth / 2
+        const dist = Math.abs(itemCenter - centerX)
+        if (dist < minDist) { minDist = dist; closest = i }
+      })
+      setActiveProject(closest)
     }
 
     scrollContainer.addEventListener("scroll", handleScroll)
@@ -117,11 +125,13 @@ export function ProjectsShowcase() {
 
   const scrollToProject = (index: number) => {
     const scrollContainer = scrollRef.current
-    if (!scrollContainer) return
+    const item = itemsRef.current[index]
+    if (!scrollContainer || !item) return
 
-    const projectWidth = scrollContainer.scrollWidth / projects.length
-    scrollContainer.scrollTo({
-      left: projectWidth * index,
+    const containerLeft = scrollContainer.getBoundingClientRect().left
+    const itemLeft = item.getBoundingClientRect().left
+    scrollContainer.scrollBy({
+      left: itemLeft - containerLeft - (scrollContainer.clientWidth - item.clientWidth) / 2,
       behavior: "smooth",
     })
   }
@@ -162,6 +172,7 @@ export function ProjectsShowcase() {
           {projects.map((project, index) => (
             <div
               key={project.id}
+              ref={(el) => { itemsRef.current[index] = el }}
               className="flex-shrink-0 w-[72vw] md:w-[52vw] lg:w-[38vw] snap-center px-4 group"
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
