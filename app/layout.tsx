@@ -1,12 +1,27 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Golos_Text, Inter } from "next/font/google"
+import { Golos_Text, Inter, Playfair_Display, Manrope, Space_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const golosText = Golos_Text({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
+const playfairDisplay = Playfair_Display({ 
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-playfair"
+})
+const manrope = Manrope({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-manrope"
+})
+const spaceMono = Space_Mono({ 
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono"
+})
 
 export const metadata: Metadata = {
   title: "Arthur Oker - Portfolio",
@@ -29,7 +44,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {/* Font styling applied here to avoid hydration mismatch */}
-          <div className={`${golosText.className}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
+          <div className={`${golosText.className} ${playfairDisplay.variable} ${manrope.variable} ${spaceMono.variable}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
             {children}
           </div>
         </ThemeProvider>

@@ -19,6 +19,17 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        playfair: ['var(--font-playfair)', 'serif'],
+        manrope: ['var(--font-manrope)', 'sans-serif'],
+        'space-mono': ['var(--font-space-mono)', 'monospace'],
+      },
+      letterSpacing: {
+        'wabi-sm': '0.12em',
+        'wabi-md': '0.18em',
+        'wabi-lg': '0.22em',
+        'wabi-xl': '0.3em',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -52,6 +63,19 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        earth: {
+          1: "hsl(var(--earth-1))",
+          2: "hsl(var(--earth-2))",
+          3: "hsl(var(--earth-3))",
+        },
+        warm: {
+          muted: {
+            1: "hsl(var(--muted-warm-1))",
+            2: "hsl(var(--muted-warm-2))",
+            3: "hsl(var(--muted-warm-3))",
+            4: "hsl(var(--muted-warm-4))",
+          },
         },
       },
       borderRadius: {

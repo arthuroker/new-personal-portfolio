@@ -1,0 +1,329 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+
+interface Project {
+  id: string
+  title: string
+  description: string
+  image: string
+  tags: string[]
+  season: string
+  links?: { label: string; href: string }[]
+  objectPosition?: string
+  contain?: boolean
+}
+
+const projects: Project[] = [
+  {
+    id: "01",
+    title: "Warmpath",
+    description: "Networking tool that finds relevant people in your field and helps craft personalized outreach based on your resume and a job description.",
+    image: "/Warmpath.png",
+    tags: ["Exa AI", "Gemini API"],
+    season: "Spring 2026",
+    contain: true,
+  },
+  {
+    id: "02",
+    title: "Personal Scheduler",
+    description: "A personal scheduler I built based on a Notion template I was using, customized with features tailored to my own workflows.",
+    image: "/PersonalScheduler.png",
+    tags: ["Vercel", "Next.js", "Supabase"],
+    season: "Fall 2025",
+    contain: true,
+  },
+  {
+    id: "03",
+    title: "CIO Connect",
+    description: "Semantic search platform for UVA clubs using OpenAI embeddings and FAISS",
+    image: "/cioconnect-screenshot.JPG",
+    tags: ["Python", "FastAPI", "Google Cloud"],
+    season: "Summer 2025",
+  },
+  {
+    id: "04",
+    title: "PhilQuery",
+    description: "RAG-powered AI philosophy assistant with vector search",
+    image: "/Phil Query ScreenShot.JPG",
+    tags: ["Python", "Streamlit", "FAISS"],
+    season: "Spring 2025",
+    links: [
+      { label: "View Project", href: "https://phil-query.streamlit.app/" },
+      { label: "GitHub", href: "https://github.com/arthuroker/PhilQuery" },
+    ],
+  },
+  {
+    id: "05",
+    title: "Cosaint",
+    description: "Unity tower defense game with AI pathfinding systems",
+    image: "/COSAINT.png",
+    tags: ["Unity", "C#", "NavMesh"],
+    season: "Spring 2025",
+    links: [
+      { label: "Play Game", href: "https://arthuroker.itch.io/cosaint" },
+      { label: "GitHub", href: "https://github.com/UVASGD/spring-2025-cosaint" },
+    ],
+  },
+]
+
+export function ProjectsShowcase() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeProject, setActiveProject] = useState(0)
+  const [isInView, setIsInView] = useState(false)
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true)
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
+
+    const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+      const progress = maxScroll > 0 ? scrollLeft / maxScroll : 0
+      setScrollProgress(progress)
+
+      // Calculate active project based on scroll position
+      const projectWidth = scrollContainer.scrollWidth / projects.length
+      const active = Math.round(scrollLeft / projectWidth)
+      setActiveProject(Math.min(active, projects.length - 1))
+    }
+
+    scrollContainer.addEventListener("scroll", handleScroll)
+    return () => scrollContainer.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToProject = (index: number) => {
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
+
+    const projectWidth = scrollContainer.scrollWidth / projects.length
+    scrollContainer.scrollTo({
+      left: projectWidth * index,
+      behavior: "smooth",
+    })
+  }
+
+  return (
+    <section id="work" className="relative py-20 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+      
+      {/* Grain overlay */}
+      <div className="absolute inset-0 grain-overlay z-0" aria-hidden="true" />
+
+      <div ref={containerRef} className="relative z-10">
+        {/* Header */}
+        <div className="px-8 mb-10 max-w-7xl mx-auto">
+          <div
+            className={cn(
+              "transition-all duration-1000 ease-out",
+              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
+            <span className="text-xs font-extralight tracking-[0.3em] text-warm-muted-3">
+              SELECTED WORK
+            </span>
+
+          </div>
+        </div>
+
+        {/* Horizontal scroll container */}
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-8"
+          style={{
+            scrollSnapType: "x mandatory",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {projects.map((project, index) => (
+            <div
+              key={project.id}
+              className="flex-shrink-0 w-[72vw] md:w-[52vw] lg:w-[38vw] snap-center px-4 group"
+              onMouseEnter={() => setHoveredProject(project.id)}
+              onMouseLeave={() => setHoveredProject(null)}
+            >
+              <div
+                className={cn(
+                  "transition-all duration-1000 ease-out",
+                  isInView
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-16",
+                )}
+                style={{
+                  transitionDelay: `${index * 150 + 300}ms`,
+                }}
+              >
+                {/* Project number + season */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-3xl font-extralight text-earth-3/30">
+                    {project.id}
+                  </span>
+                  <div className="flex-1 h-px bg-earth-3/20" />
+                  <span className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
+                    {project.season}
+                  </span>
+                </div>
+
+                {/* Image container with parallax effect */}
+                <div className={cn("relative aspect-[16/10] overflow-hidden mb-5", project.contain && "bg-secondary/40")}>
+                  <div
+                    className={cn(
+                      "absolute inset-0 transition-transform duration-700 ease-out",
+                      hoveredProject === project.id ? "scale-105" : "scale-100"
+                    )}
+                  >
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className={project.contain ? "object-contain" : "object-cover"}
+                      style={{ objectPosition: project.objectPosition ?? "center" }}
+                    />
+                  </div>
+                  
+                  {/* Overlay on hover */}
+                  <div
+                    className={cn(
+                      "absolute inset-0 bg-earth-1/20 transition-opacity duration-500",
+                      hoveredProject === project.id ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+
+                  {/* Corner accents */}
+                  <div className="absolute top-4 left-4 w-8 h-8 border-t border-l border-earth-3/40" />
+                  <div className="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-earth-3/40" />
+                </div>
+
+                {/* Content */}
+                <div className="space-y-2">
+                  <h3 className="text-base font-extralight tracking-[0.12em] text-foreground/90">
+                    {project.title}
+                  </h3>
+                  <p className="text-warm-muted-2 text-xs leading-relaxed font-extralight tracking-[0.05em] max-w-xl">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs font-extralight tracking-[0.12em] text-warm-muted-3 px-2 py-0.5 border border-earth-3/30"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  {project.links && (
+                    <div className="flex gap-5 pt-2">
+                      {project.links.map((link) => (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          target="_blank"
+                          className="group/link text-xs font-extralight tracking-[0.15em] relative"
+                        >
+                          <span className="text-warm-muted-3 group-hover/link:text-foreground transition-colors duration-500">
+                            {link.label}
+                          </span>
+                          <span className="absolute left-0 -bottom-1 w-0 h-px bg-earth-1 group-hover/link:w-full transition-all duration-500 ease-out" />
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation indicators */}
+        <div className="flex justify-center items-center gap-8 mt-8 px-6">
+          {/* Progress bar */}
+          <div className="w-48 h-px bg-earth-3/20 relative overflow-hidden">
+            <div
+              className="absolute left-0 top-0 h-full bg-earth-1 transition-all duration-300"
+              style={{ width: `${scrollProgress * 100}%` }}
+            />
+          </div>
+
+          {/* Project dots */}
+          <div className="flex gap-3">
+            {projects.map((project, index) => (
+              <button
+                key={project.id}
+                onClick={() => scrollToProject(index)}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-300",
+                  activeProject === index
+                    ? "bg-earth-1 scale-125"
+                    : "bg-earth-3/40 hover:bg-earth-3/60"
+                )}
+                aria-label={`Go to project ${project.title}`}
+              />
+            ))}
+          </div>
+
+          {/* Counter */}
+          <div className="text-xs font-extralight tracking-[0.2em] text-warm-muted-3">
+            <span className="text-foreground/80">{String(activeProject + 1).padStart(2, "0")}</span>
+            <span className="mx-1">/</span>
+            <span>{String(projects.length).padStart(2, "0")}</span>
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div
+          className={cn(
+            "flex items-center justify-center gap-2 mt-8 transition-opacity duration-500",
+            scrollProgress > 0.1 ? "opacity-0" : "opacity-60"
+          )}
+        >
+          <span className="text-xs font-extralight tracking-[0.2em] text-warm-muted-3">
+            SCROLL
+          </span>
+          <svg
+            className="w-4 h-4 text-warm-muted-3 animate-pulse"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1}
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+        </div>
+      </div>
+
+    </section>
+  )
+}

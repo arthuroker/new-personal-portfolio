@@ -1,7 +1,6 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
 import { Moon, Sun } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -16,24 +15,21 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" className="rounded-full">
-        <Sun className="h-[1.2rem] w-[1.2rem] opacity-50" />
+      <button className="w-8 h-8 flex items-center justify-center text-warm-muted-3 opacity-50">
+        <Sun className="h-4 w-4" />
         <span className="sr-only">Toggle theme</span>
-      </Button>
+      </button>
     )
   }
 
   return (
-    <Button
-      variant="outline"
-      size="icon"
+    <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="rounded-full overflow-hidden relative transition-all duration-500 hover:bg-primary/10 hover:text-primary"
+      className="w-8 h-8 flex items-center justify-center text-warm-muted-3 hover:text-foreground transition-colors duration-500"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-300 to-yellow-600 dark:from-indigo-500 dark:to-purple-700 opacity-0 dark:opacity-0 transition-opacity duration-500 hover:opacity-10"></div>
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
+      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
       <span className="sr-only">Toggle theme</span>
-    </Button>
+    </button>
   )
 }
