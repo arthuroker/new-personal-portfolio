@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Golos_Text, Inter, Playfair_Display, Manrope, Space_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 
 const golosText = Golos_Text({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
@@ -35,19 +34,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange={false}
-        >
-          {/* Font styling applied here to avoid hydration mismatch */}
-          <div className={`${golosText.className} ${playfairDisplay.variable} ${manrope.variable} ${spaceMono.variable}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
-            {children}
-          </div>
-        </ThemeProvider>
+        {/* Font styling applied here to avoid hydration mismatch */}
+        <div className={`${golosText.className} ${playfairDisplay.variable} ${manrope.variable} ${spaceMono.variable}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
+          {children}
+        </div>
         <Analytics />
       </body>
     </html>

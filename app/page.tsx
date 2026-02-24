@@ -66,13 +66,18 @@ export default function Home() {
             {/* SZNS Solutions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
               <div className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
-                <div>June 2026</div>
-                <div className="mt-1">
-                  <Link href="https://www.szns.solutions/" target="_blank" className="group relative">
-                    <span className="text-warm-muted-2 group-hover:text-foreground transition-colors duration-500">SZNS Solutions</span>
+                <div className="mb-1.5">
+                  <Link
+                    href="https://www.szns.solutions/"
+                    target="_blank"
+                    aria-label="Visit SZNS Solutions website"
+                    className="group relative inline-flex items-center gap-1 cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-earth-1/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  >
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors duration-500">SZNS Solutions</span>
                     <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
                   </Link>
                 </div>
+                <div>June 2026</div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">Sales Development Representative</h3>
@@ -85,13 +90,18 @@ export default function Home() {
             {/* Anthropic */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
               <div className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
-                <div>Aug 2025 - Dec 2025</div>
-                <div className="mt-1">
-                  <Link href="https://www.anthropic.com/" target="_blank" className="group relative">
-                    <span className="text-warm-muted-2 group-hover:text-foreground transition-colors duration-500">Anthropic</span>
+                <div className="mb-1.5">
+                  <Link
+                    href="https://www.anthropic.com/"
+                    target="_blank"
+                    aria-label="Visit Anthropic website"
+                    className="group relative inline-flex items-center gap-1 cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-earth-1/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  >
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors duration-500">Anthropic</span>
                     <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
                   </Link>
                 </div>
+                <div>Aug 2025 - Dec 2025</div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">Claude Builder Ambassador</h3>
@@ -105,13 +115,18 @@ export default function Home() {
             {/* KEYENCE */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
               <div className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
-                <div>May 2025 - June 2025</div>
-                <div className="mt-1">
-                  <Link href="https://www.keyence.com/" target="_blank" className="group relative">
-                    <span className="text-warm-muted-2 group-hover:text-foreground transition-colors duration-500">KEYENCE Corporation</span>
+                <div className="mb-1.5">
+                  <Link
+                    href="https://www.keyence.com/"
+                    target="_blank"
+                    aria-label="Visit KEYENCE Corporation website"
+                    className="group relative inline-flex items-center gap-1 cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-earth-1/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  >
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors duration-500">KEYENCE Corporation</span>
                     <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
                   </Link>
                 </div>
+                <div>May 2025 - June 2025</div>
               </div>
               <div className="md:col-span-2">
                 <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">Technical Sales Intern</h3>
@@ -121,27 +136,38 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </div>
 
-            {/* UVA */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
-              <div className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
-                <div>Aug 2022 - May 2026</div>
-                <div className="mt-1">
-                  <Link href="https://www.virginia.edu/" target="_blank" className="group relative">
-                    <span className="text-warm-muted-2 group-hover:text-foreground transition-colors duration-500">University of Virginia</span>
-                    <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
-                  </Link>
+          <div className="mt-24">
+            <h2 className="text-lg font-extralight tracking-[0.22em] text-foreground/80 mb-16 fade-in-scroll">Education</h2>
+
+            <div className="space-y-16">
+              {/* UVA */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-scroll">
+                <div className="text-xs font-extralight tracking-[0.15em] text-warm-muted-3">
+                  <div className="mb-1.5">
+                    <Link
+                      href="https://www.virginia.edu/"
+                      target="_blank"
+                      aria-label="Visit University of Virginia website"
+                      className="group relative inline-flex items-center gap-1 cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-earth-1/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors duration-500">University of Virginia</span>
+                      <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
+                    </Link>
+                  </div>
+                  <div>Aug 2022 - May 2026</div>
                 </div>
-              </div>
-              <div className="md:col-span-2">
-                <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">BA Computer Science & BA Philosophy</h3>
-                <p className="text-warm-muted-2 text-sm leading-relaxed font-extralight tracking-[0.05em] mb-4">
-                  GPA: 3.852/4.0
-                </p>
-                <div className="text-xs font-extralight tracking-[0.1em] text-warm-muted-3 space-y-1.5">
-                  <div>Claude Builders Club — Co-President, Co-Founder</div>
-                  <div>Student Game Developers — Director, Treasurer</div>
-                  <div>Societal AI — Workshop Lead, Philosophy Chair</div>
+                <div className="md:col-span-2">
+                  <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">BA Computer Science & BA Philosophy</h3>
+                  <p className="text-warm-muted-2 text-sm leading-relaxed font-extralight tracking-[0.05em] mb-4">
+                    GPA: 3.852/4.0
+                  </p>
+                  <div className="text-xs font-extralight tracking-[0.1em] text-warm-muted-3 space-y-1.5">
+                    <div>Claude Builders Club — Co-President, Co-Founder</div>
+                    <div>Student Game Developers — Director, Treasurer</div>
+                    <div>Societal AI — Workshop Lead, Philosophy Chair</div>
+                  </div>
                 </div>
               </div>
             </div>

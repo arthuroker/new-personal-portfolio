@@ -78,6 +78,7 @@ export function ProjectsShowcase() {
   const [activeProject, setActiveProject] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
+  const [edgeSpacerWidth, setEdgeSpacerWidth] = useState(0)
 
   useEffect(() => {
     const container = containerRef.current
@@ -100,6 +101,8 @@ export function ProjectsShowcase() {
     const scrollContainer = scrollRef.current
     if (!scrollContainer) return
 
+    let frameId: number | null = null
+
     const handleScroll = () => {
       const scrollLeft = scrollContainer.scrollLeft
       const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
@@ -119,8 +122,23 @@ export function ProjectsShowcase() {
       setActiveProject(closest)
     }
 
-    scrollContainer.addEventListener("scroll", handleScroll)
-    return () => scrollContainer.removeEventListener("scroll", handleScroll)
+    const onScroll = () => {
+      if (frameId !== null) return
+      frameId = window.requestAnimationFrame(() => {
+        handleScroll()
+        frameId = null
+      })
+    }
+
+    scrollContainer.addEventListener("scroll", onScroll)
+    handleScroll()
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", onScroll)
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
   }, [])
 
   const scrollToProject = (index: number) => {
@@ -128,13 +146,48 @@ export function ProjectsShowcase() {
     const item = itemsRef.current[index]
     if (!scrollContainer || !item) return
 
-    const containerLeft = scrollContainer.getBoundingClientRect().left
-    const itemLeft = item.getBoundingClientRect().left
-    scrollContainer.scrollBy({
-      left: itemLeft - containerLeft - (scrollContainer.clientWidth - item.clientWidth) / 2,
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+    const targetLeft = item.offsetLeft - (scrollContainer.clientWidth - item.clientWidth) / 2
+    const clampedTarget = Math.max(0, Math.min(targetLeft, maxScroll))
+
+    scrollContainer.scrollTo({
+      left: clampedTarget,
       behavior: "smooth",
     })
   }
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
+
+    const updateEdgeSpacers = () => {
+      const firstItem = itemsRef.current[0]
+      if (!firstItem) return
+
+      const spacer = Math.max(0, (scrollContainer.clientWidth - firstItem.clientWidth) / 2)
+      setEdgeSpacerWidth(spacer)
+    }
+
+    updateEdgeSpacers()
+
+    const observer = new ResizeObserver(updateEdgeSpacers)
+    observer.observe(scrollContainer)
+    itemsRef.current.forEach((item) => {
+      if (item) observer.observe(item)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
+
+    // Ensure a consistent initial state on load/reflow.
+    scrollContainer.scrollTo({ left: 0, behavior: "auto" })
+    setActiveProject(0)
+    setScrollProgress(0)
+  }, [edgeSpacerWidth])
 
   return (
     <section id="work" className="relative py-20 overflow-hidden">
@@ -163,12 +216,18 @@ export function ProjectsShowcase() {
         {/* Horizontal scroll container */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-8"
+          className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide px-8"
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",
+            touchAction: "pan-x",
           }}
         >
+          <div
+            className="flex-shrink-0 snap-center"
+            style={{ width: edgeSpacerWidth }}
+            aria-hidden="true"
+          />
           {projects.map((project, index) => (
             <div
               key={project.id}
@@ -272,6 +331,11 @@ export function ProjectsShowcase() {
               </div>
             </div>
           ))}
+          <div
+            className="flex-shrink-0 snap-center"
+            style={{ width: edgeSpacerWidth }}
+            aria-hidden="true"
+          />
         </div>
 
         {/* Navigation indicators */}
@@ -284,21 +348,38 @@ export function ProjectsShowcase() {
             />
           </div>
 
-          {/* Project dots */}
-          <div className="flex gap-3">
-            {projects.map((project, index) => (
-              <button
-                key={project.id}
-                onClick={() => scrollToProject(index)}
-                className={cn(
-                  "w-2 h-2 rounded-full transition-all duration-300",
-                  activeProject === index
-                    ? "bg-earth-1 scale-125"
-                    : "bg-earth-3/40 hover:bg-earth-3/60"
-                )}
-                aria-label={`Go to project ${project.title}`}
-              />
-            ))}
+          {/* Prev / next controls */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => scrollToProject(activeProject - 1)}
+              disabled={activeProject === 0}
+              aria-label="Previous project"
+              className={cn(
+                "h-8 w-8 border border-earth-3/30 text-earth-2 transition-colors duration-300 flex items-center justify-center",
+                activeProject === 0
+                  ? "opacity-30 cursor-not-allowed"
+                  : "hover:border-earth-1 hover:text-foreground"
+              )}
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 6l-6 6 6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scrollToProject(activeProject + 1)}
+              disabled={activeProject === projects.length - 1}
+              aria-label="Next project"
+              className={cn(
+                "h-8 w-8 border border-earth-3/30 text-earth-2 transition-colors duration-300 flex items-center justify-center",
+                activeProject === projects.length - 1
+                  ? "opacity-30 cursor-not-allowed"
+                  : "hover:border-earth-1 hover:text-foreground"
+              )}
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M9 6l6 6-6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
 
           {/* Counter */}

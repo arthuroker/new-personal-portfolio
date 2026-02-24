@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 type ActivePage = "home" | "writing" | "about"
 
@@ -81,7 +80,6 @@ export function SiteHeader({ activePage = "home" }: SiteHeaderProps) {
           )}
           <NavLink href="/blog" label="Writing" active={activePage === "writing"} />
           <NavLink href="/about" label="About" active={activePage === "about"} />
-          <ThemeToggle />
         </div>
       </nav>
     </header>

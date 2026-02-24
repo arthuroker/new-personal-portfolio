@@ -198,19 +198,6 @@ export default function AgencyHero() {
         </div>
       </div>
 
-      {/* Corner accent dots */}
-      <motion.div
-        className="absolute top-8 right-8 flex flex-col gap-1.5 z-10 pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={t(3.6, 1.8)}
-        aria-hidden="true"
-      >
-        <div className="w-1 h-1 rounded-full bg-earth-2" />
-        <div className="w-1.5 h-1.5 rounded-full bg-earth-1" />
-        <div className="w-1 h-1 rounded-full bg-earth-3" />
-      </motion.div>
-
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-12 left-1/2 -translate-x-1/2 z-0 pointer-events-none"

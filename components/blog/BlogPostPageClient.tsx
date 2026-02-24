@@ -57,7 +57,7 @@ export function BlogPostPageClient({ post, newer, older, children }: BlogPostPag
               ) : null}
             </header>
 
-            <div className="prose prose-neutral dark:prose-invert font-extralight max-w-none prose-p:text-foreground/80 prose-p:font-extralight prose-p:tracking-[0.03em] prose-p:leading-relaxed prose-headings:font-extralight prose-headings:tracking-tight prose-a:text-foreground/60 prose-a:no-underline hover:prose-a:text-foreground prose-hr:border-border/30">
+            <div className="prose prose-invert font-extralight max-w-none prose-p:text-foreground/80 prose-p:font-extralight prose-p:tracking-[0.03em] prose-p:leading-relaxed prose-headings:font-extralight prose-headings:tracking-tight prose-a:text-foreground/60 prose-a:no-underline hover:prose-a:text-foreground prose-hr:border-border/30">
               {children}
             </div>
           </article>

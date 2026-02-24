@@ -4,42 +4,6 @@
 
 @layer base {
   :root {
-    /* Wabi-sabi light mode - warm cream palette */
-    --background: 38 27% 96%; /* #F8F6F4 */
-    --foreground: 0 0% 16%; /* #2A2A2A */
-    --card: 38 27% 96%;
-    --card-foreground: 0 0% 16%;
-    --popover: 38 27% 96%;
-    --popover-foreground: 0 0% 16%;
-    --primary: 28 30% 52%; /* #8B7355 */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 30 15% 88%;
-    --secondary-foreground: 0 0% 16%;
-    --muted: 30 15% 88%;
-    --muted-foreground: 30 10% 35%; /* #5A5550 */
-    --accent: 28 30% 52%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 30 10% 80%;
-    --input: 30 10% 80%;
-    --ring: 28 30% 52%;
-    --radius: 0.125rem;
-    
-    /* Wabi-sabi custom colors */
-    --warm-cream: 38 27% 96%;
-    --warm-charcoal: 30 5% 10%;
-    --earth-1: 28 30% 52%; /* #8B7355 */
-    --earth-2: 28 25% 45%; /* #A0846B */
-    --earth-3: 30 15% 70%; /* #C4B8A8 */
-    --muted-warm-1: 30 8% 33%; /* #5A5550 */
-    --muted-warm-2: 25 5% 47%; /* #7A7570 */
-    --muted-warm-3: 30 5% 55%; /* #8A8580 */
-    --muted-warm-4: 30 5% 65%; /* #A5A09A */
-  }
-
-  .dark {
-    /* Wabi-sabi dark mode - warm charcoal palette */
     --background: 30 5% 10%; /* #1A1918 */
     --foreground: 40 15% 95%; /* #F5F3F0 */
     --card: 30 5% 12%;
@@ -59,8 +23,8 @@
     --border: 30 5% 20%;
     --input: 30 5% 20%;
     --ring: 28 30% 55%;
-    
-    /* Dark mode wabi-sabi colors */
+    --radius: 0.125rem;
+
     --warm-cream: 30 5% 10%;
     --warm-charcoal: 40 15% 95%;
     --earth-1: 28 30% 55%;
@@ -88,7 +52,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Transition for theme changes */
+/* Base color transitions */
 body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
@@ -281,14 +245,12 @@ body {
   }
 }
 
-/* Fix for dark mode transitions */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-/* Improved dark mode transition */
 ::view-transition-old(root) {
   z-index: 1;
 }
@@ -296,8 +258,7 @@ body {
   z-index: 999;
 }
 
-/* Dark mode specific styles */
-.dark .dark\:gradient-text {
+.dark\:gradient-text {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #f7fafc;
   --tw-gradient-to: #cbd5e0;
