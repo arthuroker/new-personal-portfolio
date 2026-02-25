@@ -7,23 +7,35 @@ interface PostCardProps {
 }
 
 export function PostCard({ post }: PostCardProps) {
+  const isClickable = !post.draft
+
+  const cardContent = (
+    <>
+      <div className="flex items-baseline justify-between gap-8 mb-3">
+        <h2 className={`text-sm font-extralight tracking-[0.03em] text-foreground/80 transition-colors duration-500 ${isClickable ? "group-hover:text-foreground" : ""}`}>
+          {post.title}
+        </h2>
+        <span className="shrink-0 text-xs font-extralight tracking-[0.05em] text-foreground/30 tabular-nums">
+          {format(new Date(post.date), "MMM yyyy")}
+        </span>
+      </div>
+      {post.excerpt && (
+        <p className="text-xs font-extralight leading-relaxed tracking-[0.03em] text-foreground/40 line-clamp-2">
+          {post.excerpt}
+        </p>
+      )}
+    </>
+  )
+
   return (
     <article className="group py-8 border-t border-border/30 first:border-t-0">
-      <Link href={`/blog/${post.slug}`} className="block">
-        <div className="flex items-baseline justify-between gap-8 mb-3">
-          <h2 className="text-sm font-extralight tracking-[0.03em] text-foreground/80 group-hover:text-foreground transition-colors duration-500">
-            {post.title}
-          </h2>
-          <span className="shrink-0 text-xs font-extralight tracking-[0.05em] text-foreground/30 tabular-nums">
-            {format(new Date(post.date), "MMM yyyy")}
-          </span>
-        </div>
-        {post.excerpt && (
-          <p className="text-xs font-extralight leading-relaxed tracking-[0.03em] text-foreground/40 line-clamp-2">
-            {post.excerpt}
-          </p>
-        )}
-      </Link>
+      {isClickable ? (
+        <Link href={`/blog/${post.slug}`} className="block">
+          {cardContent}
+        </Link>
+      ) : (
+        <div className="block">{cardContent}</div>
+      )}
     </article>
   )
 }
