@@ -1,9 +1,9 @@
 import Link from "next/link"
-import { format } from "date-fns"
-import type { Post } from "@/lib/blog.types"
+import type { PostSummary } from "@/lib/blog.types"
+import { formatBlogDate } from "@/lib/blog-date"
 
 interface PostCardProps {
-  post: Post
+  post: PostSummary
 }
 
 export function PostCard({ post }: PostCardProps) {
@@ -16,7 +16,7 @@ export function PostCard({ post }: PostCardProps) {
           {post.title}
         </h2>
         <span className="shrink-0 text-xs font-extralight tracking-[0.05em] text-foreground/30 tabular-nums">
-          {format(new Date(post.date), "MMM yyyy")}
+          {formatBlogDate(post.date, "MMM yyyy")}
         </span>
       </div>
       {post.excerpt && (

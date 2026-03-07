@@ -1,7 +1,8 @@
 import { getPublishedPosts } from "@/lib/blog"
+import { toBlogUtcString } from "@/lib/blog-date"
 import { absoluteUrl, siteConfig } from "@/lib/site"
 
-export const revalidate = 3600
+export const dynamic = "force-static"
 
 function escapeXml(value: string) {
   return value
@@ -19,14 +20,14 @@ export async function GET() {
     .map((post) => {
       const postUrl = absoluteUrl(`/blog/${post.slug}`)
       const description = escapeXml(post.excerpt)
-      const content = escapeXml(post.content)
+      const content = escapeXml(post.excerpt)
 
       return `
         <item>
           <title>${escapeXml(post.title)}</title>
           <link>${postUrl}</link>
           <guid>${postUrl}</guid>
-          <pubDate>${new Date(post.date).toUTCString()}</pubDate>
+          <pubDate>${toBlogUtcString(post.date)}</pubDate>
           <description>${description}</description>
           <content:encoded><![CDATA[${content}]]></content:encoded>
         </item>

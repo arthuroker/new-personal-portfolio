@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next"
 import { getPublishedPosts } from "@/lib/blog"
+import { parseBlogDate } from "@/lib/blog-date"
 import { absoluteUrl } from "@/lib/site"
 
-export const revalidate = 3600
+export const dynamic = "force-static"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getPublishedPosts()
@@ -24,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: absoluteUrl(`/blog/${post.slug}`),
-    lastModified: new Date(post.date),
+    lastModified: parseBlogDate(post.date),
     changeFrequency: "monthly",
     priority: 0.7,
   }))

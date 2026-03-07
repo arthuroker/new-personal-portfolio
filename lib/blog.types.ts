@@ -1,4 +1,6 @@
 export type PostKind = "note" | "article"
+export type PostFormat = "md" | "mdx"
+export type PostRenderMode = "html" | "mdx"
 
 export interface PostFrontmatter {
   title: string
@@ -11,13 +13,25 @@ export interface PostFrontmatter {
   coverImage?: string
 }
 
-export interface Post extends PostFrontmatter {
+export interface PostSummary extends PostFrontmatter {
   slug: string
-  content: string
   readingTimeMinutes: number
+  format: PostFormat
 }
 
+export interface HtmlPostPageData extends PostSummary {
+  renderMode: "html"
+  html: string
+}
+
+export interface MdxPostPageData extends PostSummary {
+  renderMode: "mdx"
+  source: string
+}
+
+export type PostPageData = HtmlPostPageData | MdxPostPageData
+
 export interface AdjacentPosts {
-  newer: Post | null
-  older: Post | null
+  newer: PostSummary | null
+  older: PostSummary | null
 }

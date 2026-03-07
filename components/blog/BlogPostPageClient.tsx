@@ -1,15 +1,13 @@
-"use client"
-
 import { type ReactNode } from "react"
 import Link from "next/link"
-import { format } from "date-fns"
 import { SiteHeader } from "@/components/site-header"
-import type { getAdjacentPosts, getPostBySlug } from "@/lib/blog"
+import { formatBlogDate } from "@/lib/blog-date"
+import type { PostPageData, PostSummary } from "@/lib/blog.types"
 
 interface BlogPostPageClientProps {
-  post: NonNullable<Awaited<ReturnType<typeof getPostBySlug>>>
-  newer: Awaited<ReturnType<typeof getAdjacentPosts>>['newer']
-  older: Awaited<ReturnType<typeof getAdjacentPosts>>['older']
+  post: PostPageData
+  newer: PostSummary | null
+  older: PostSummary | null
   children: ReactNode
 }
 
@@ -21,29 +19,32 @@ export function BlogPostPageClient({ post, newer, older, children }: BlogPostPag
 
       <SiteHeader activePage="writing" />
 
-      <main className="relative z-10 pt-40 pb-32 px-6">
-        <div className="max-w-2xl mx-auto">
+      <main className="relative z-10 px-6 pb-32 pt-28 md:pt-32">
+        <div className="max-w-3xl mx-auto">
 
           {/* Back link */}
           <Link
             href="/blog"
-            className="text-xs font-extralight tracking-[0.2em] text-foreground/30 hover:text-foreground/60 uppercase transition-colors duration-500 mb-20 inline-block"
+            className="mb-12 inline-block text-xs font-space-mono tracking-[0.2em] text-foreground/30 uppercase transition-colors duration-500 hover:text-foreground/60"
           >
             ← Writing
           </Link>
 
           <article>
-            <header className="mb-16">
-              <h1 className="text-lg font-extralight tracking-[0.02em] text-foreground/80 mb-6 leading-snug">
+            <header className="mb-16 border-b border-border/40 pb-8">
+              <p className="mb-4 text-[11px] font-space-mono uppercase tracking-[0.32em] text-earth-3/80">
+                {post.kind === "article" ? "Essay" : "Note"}
+              </p>
+              <h1 className="max-w-2xl font-playfair text-3xl leading-[1.08] text-foreground/90 md:text-4xl">
                 {post.title}
               </h1>
-              <p className="text-xs font-extralight tracking-[0.1em] text-foreground/30">
-                {format(new Date(post.date), "MMMM d, yyyy")}
+              <p className="mt-6 text-xs font-space-mono tracking-[0.16em] text-foreground/35 uppercase">
+                {formatBlogDate(post.date, "MMMM d, yyyy")}
                 <span className="mx-2">·</span>
                 {post.readingTimeMinutes} min read
               </p>
               {post.canonicalUrl ? (
-                <p className="mt-4 text-xs font-extralight tracking-[0.05em] text-foreground/30">
+                <p className="mt-4 text-xs font-manrope tracking-[0.04em] text-foreground/35">
                   Originally published at{" "}
                   <a
                     href={post.canonicalUrl}
@@ -57,7 +58,7 @@ export function BlogPostPageClient({ post, newer, older, children }: BlogPostPag
               ) : null}
             </header>
 
-            <div className="prose prose-invert font-extralight max-w-none prose-p:text-foreground/80 prose-p:font-extralight prose-p:tracking-[0.03em] prose-p:leading-relaxed prose-headings:font-extralight prose-headings:tracking-tight prose-a:text-foreground/60 prose-a:no-underline hover:prose-a:text-foreground prose-hr:border-border/30">
+            <div className="article-content max-w-2xl">
               {children}
             </div>
           </article>

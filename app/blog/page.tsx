@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Short notes and long-form articles on technology, philosophy, and software building.",
 }
 
-export const revalidate = 3600
+export const dynamic = "force-static"
 
 export default async function BlogPage() {
   const posts = await getPublishedPosts()

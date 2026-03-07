@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { BlogPostPageClient } from "@/components/blog/BlogPostPageClient"
+import { MdxRenderer } from "@/components/blog/MdxRenderer"
 import { MarkdownRenderer } from "@/components/blog/MarkdownRenderer"
 import { getAdjacentPosts, getPostBySlug, getPublishedPosts } from "@/lib/blog"
 import { absoluteUrl } from "@/lib/site"
 
-export const revalidate = 3600
+export const dynamic = "force-static"
+export const dynamicParams = false
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>
@@ -62,7 +64,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <BlogPostPageClient post={post} newer={newer} older={older}>
-      <MarkdownRenderer content={post.content} />
+      {post.renderMode === "html" ? <MarkdownRenderer html={post.html} /> : <MdxRenderer source={post.source} />}
     </BlogPostPageClient>
   )
 }

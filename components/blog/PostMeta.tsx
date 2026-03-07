@@ -1,9 +1,9 @@
 import { Calendar, Clock } from "lucide-react"
-import { format } from "date-fns"
-import type { Post } from "@/lib/blog.types"
+import type { PostSummary } from "@/lib/blog.types"
+import { formatBlogDate } from "@/lib/blog-date"
 
 interface PostMetaProps {
-  post: Pick<Post, "date" | "readingTimeMinutes" | "kind" | "tags">
+  post: Pick<PostSummary, "date" | "readingTimeMinutes" | "kind" | "tags">
   className?: string
 }
 
@@ -17,7 +17,7 @@ export function PostMeta({ post, className }: PostMetaProps) {
       <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
           <Calendar className="h-3.5 w-3.5" />
-          {format(new Date(post.date), "MMM d, yyyy")}
+          {formatBlogDate(post.date, "MMM d, yyyy")}
         </span>
         <span className="inline-flex items-center gap-1.5">
           <Clock className="h-3.5 w-3.5" />

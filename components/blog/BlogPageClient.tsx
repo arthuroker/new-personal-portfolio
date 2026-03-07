@@ -1,43 +1,12 @@
-"use client"
-
 import { PostCard } from "@/components/blog/PostCard"
 import { SiteHeader } from "@/components/site-header"
-import type { getPublishedPosts } from "@/lib/blog"
+import type { PostSummary } from "@/lib/blog.types"
 
 interface BlogPageClientProps {
-  posts: Awaited<ReturnType<typeof getPublishedPosts>>
+  posts: PostSummary[]
 }
 
-import type { Post } from "@/lib/blog.types"
-
-const WIP_POSTS: Post[] = [
-  {
-    slug: "philosophy-vs-cs",
-    title: "Why my Philosophy Degree taught me more than my CS degree",
-    excerpt: "Work in progress",
-    date: "2026-02-22",
-    kind: "article",
-    tags: [],
-    draft: true,
-    readingTimeMinutes: 0,
-    content: "",
-  },
-  {
-    slug: "optimizing-for-the-right-thing",
-    title: "Optimizing for the right things in college",
-    excerpt: "Work in progress",
-    date: "2026-02-22",
-    kind: "article",
-    tags: [],
-    draft: true,
-    readingTimeMinutes: 0,
-    content: "",
-  },
-]
-
 export function BlogPageClient({ posts }: BlogPageClientProps) {
-  // TODO: swap back to `posts` when real articles are ready
-  const displayPosts = WIP_POSTS
   return (
     <div className="min-h-screen relative">
       {/* Grain overlay */}
@@ -63,7 +32,13 @@ export function BlogPageClient({ posts }: BlogPageClientProps) {
 
           {/* Posts list */}
           <section>
-            {displayPosts.map((post) => <PostCard key={post.slug} post={post} />)}
+            {posts.length > 0 ? (
+              posts.map((post) => <PostCard key={post.slug} post={post} />)
+            ) : (
+              <p className="text-xs font-extralight leading-relaxed tracking-[0.05em] text-foreground/40">
+                No published posts yet.
+              </p>
+            )}
           </section>
 
         </div>
