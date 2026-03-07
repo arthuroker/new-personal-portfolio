@@ -7,7 +7,7 @@ tags:
   - computer science
   - philosophy
   - education
-draft: false
+draft: true
 ---
 
 As I near graduation, I've been reflecting on my time in college. Specifically, I've thought about my different experiences going through my computer science education compared to my philosophy education. On the whole, I feel like I've enjoyed philosophy more, and in some respects, felt like it's been more instrumental in becoming the thinker and learner I am today. In this reflection, I attempt to understand what explains this difference.
