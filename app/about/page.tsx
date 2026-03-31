@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 
 export default function AboutPage() {
@@ -36,6 +37,15 @@ export default function AboutPage() {
             <p>
               This site is where I collect some of that work.
             </p>
+          </div>
+
+          <div className="mt-16">
+            <Link
+              href="/about/books"
+              className="text-sm font-extralight tracking-[0.08em] text-foreground/70 underline decoration-earth-1/60 underline-offset-4 transition-colors duration-500 hover:text-foreground"
+            >
+              books i like
+            </Link>
           </div>
 
           {/* Organic divider */}
