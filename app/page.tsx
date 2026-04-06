@@ -38,8 +38,9 @@ export default function Home() {
       <AgencyHero />
 
       {/* Organic divider - wabi touch */}
-      <div className="relative py-8">
-        <svg className="w-32 h-2 mx-auto organic-divider" viewBox="0 0 120 8" aria-hidden="true">
+      <div className="relative py-8 bg-background">
+        <div className="absolute inset-0 grain-overlay z-0 pointer-events-none" aria-hidden="true" />
+        <svg className="relative z-10 w-32 h-2 mx-auto organic-divider" viewBox="0 0 120 8" aria-hidden="true">
           <path 
             d="M0,4 C20,2 40,6 60,4 C80,2 100,6 120,4" 
             fill="none" 

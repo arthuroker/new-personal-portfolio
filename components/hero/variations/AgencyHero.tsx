@@ -1,36 +1,11 @@
 'use client'
 
-import { useCallback, type MouseEvent } from 'react'
-import {
-  motion,
-  useReducedMotion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 const WORDS = ['Arthur', 'Oker']
 
 export default function AgencyHero() {
   const shouldReduceMotion = useReducedMotion()
-
-  // Subtle mouse parallax on the name block
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const springX = useSpring(mouseX, { stiffness: 30, damping: 22 })
-  const springY = useSpring(mouseY, { stiffness: 30, damping: 22 })
-  const parallaxX = useTransform(springX, [-1, 1], [-4, 4])
-  const parallaxY = useTransform(springY, [-1, 1], [-4, 4])
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent<HTMLElement>) => {
-      if (shouldReduceMotion) return
-      const rect = e.currentTarget.getBoundingClientRect()
-      mouseX.set(((e.clientX - rect.left) / rect.width - 0.5) * 2)
-      mouseY.set(((e.clientY - rect.top) / rect.height - 0.5) * 2)
-    },
-    [shouldReduceMotion, mouseX, mouseY]
-  )
 
   // Unified transition builder — collapses to instant when reduced motion
   const t = (delay: number, duration = 0.9) =>
@@ -42,7 +17,6 @@ export default function AgencyHero() {
     <section
       id="hero"
       className="min-h-screen relative overflow-hidden bg-background"
-      onMouseMove={handleMouseMove}
     >
       {/* Paper grain */}
       <div
@@ -51,60 +25,57 @@ export default function AgencyHero() {
       />
 
       {/* Main content — centered */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div className="text-center" style={{ marginLeft: '2%' }}>
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-16">
+        <div className="text-center">
 
-          {/* Name — parallax wrapper */}
-          <motion.div style={{ x: parallaxX, y: parallaxY }}>
-            <h1
-              className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[0.2em] text-foreground"
-              aria-label="Arthur Oker"
-            >
-              {WORDS.map((word, wi) => {
-                const chars = word.split('')
-                // Each word's chars stagger from a base delay
-                // "Arthur" starts at 0.3s, "Oker" starts at 0.85s
-                const wordBase = wi === 0 ? 0.3 : 0.85
+          <h1
+            className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[0.2em] text-foreground"
+            aria-label="Arthur Oker"
+          >
+            {WORDS.map((word, wi) => {
+              const chars = word.split('')
+              // Each word's chars stagger from a base delay
+              // "Arthur" starts at 0.3s, "Oker" starts at 0.85s
+              const wordBase = wi === 0 ? 0.3 : 0.85
 
-                return (
-                  <span key={wi} className="inline-block">
-                    {chars.map((char, ci) => {
-                      const delay = wordBase + ci * 0.055
-                      return (
-                        <span
-                          key={ci}
-                          className="inline-block overflow-hidden"
-                          style={{ verticalAlign: 'bottom' }}
-                          aria-hidden="true"
+              return (
+                <span key={wi} className="inline-block">
+                  {chars.map((char, ci) => {
+                    const delay = wordBase + ci * 0.055
+                    return (
+                      <span
+                        key={ci}
+                        className="inline-block overflow-hidden"
+                        style={{ verticalAlign: 'bottom' }}
+                        aria-hidden="true"
+                      >
+                        <motion.span
+                          className="inline-block"
+                          initial={shouldReduceMotion ? {} : { y: '115%' }}
+                          animate={{ y: '0%' }}
+                          transition={
+                            shouldReduceMotion
+                              ? { duration: 0 }
+                              : {
+                                  duration: 0.9,
+                                  ease: [0.22, 1, 0.36, 1],
+                                  delay,
+                                }
+                          }
                         >
-                          <motion.span
-                            className="inline-block"
-                            initial={shouldReduceMotion ? {} : { y: '115%' }}
-                            animate={{ y: '0%' }}
-                            transition={
-                              shouldReduceMotion
-                                ? { duration: 0 }
-                                : {
-                                    duration: 0.9,
-                                    ease: [0.22, 1, 0.36, 1],
-                                    delay,
-                                  }
-                            }
-                          >
-                            {char}
-                          </motion.span>
-                        </span>
-                      )
-                    })}
-                    {/* Space between words */}
-                    {wi < WORDS.length - 1 && (
-                      <span style={{ display: 'inline-block', width: '0.35em' }} />
-                    )}
-                  </span>
-                )
-              })}
-            </h1>
-          </motion.div>
+                          {char}
+                        </motion.span>
+                      </span>
+                    )
+                  })}
+                  {/* Space between words */}
+                  {wi < WORDS.length - 1 && (
+                    <span style={{ display: 'inline-block', width: '0.35em' }} />
+                  )}
+                </span>
+              )
+            })}
+          </h1>
 
           {/* Gradient accent line */}
           <div className="h-8" />
