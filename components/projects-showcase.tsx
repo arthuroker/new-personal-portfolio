@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { cn } from "@/lib/utils"
+
+gsap.registerPlugin(ScrollTrigger)
 
 interface Project {
   id: string
@@ -74,27 +78,62 @@ export function ProjectsShowcase() {
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const itemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([])
+  const overlayRefs = useRef<(HTMLDivElement | null)[]>([])
+  const reduceMotionRef = useRef(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeProject, setActiveProject] = useState(0)
-  const [isInView, setIsInView] = useState(false)
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
   const [edgeSpacerWidth, setEdgeSpacerWidth] = useState(0)
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    reduceMotionRef.current = reduceMotion
+    const cards = gsap.utils.toArray<HTMLElement>("[data-project-card]", container)
 
-    observer.observe(container)
-    return () => observer.disconnect()
+    if (reduceMotion) {
+      gsap.set(cards, { clearProps: "all" })
+      return
+    }
+
+    const context = gsap.context(() => {
+      gsap.fromTo(
+        "[data-project-label]",
+        { autoAlpha: 0, y: 14 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: container,
+            start: "top 82%",
+            once: true,
+          },
+        },
+      )
+
+      gsap.fromTo(
+        cards,
+        { autoAlpha: 0, y: 28 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.85,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: scrollRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      )
+    }, container)
+
+    return () => context.revert()
   }, [])
 
   useEffect(() => {
@@ -150,9 +189,36 @@ export function ProjectsShowcase() {
     const targetLeft = item.offsetLeft - (scrollContainer.clientWidth - item.clientWidth) / 2
     const clampedTarget = Math.max(0, Math.min(targetLeft, maxScroll))
 
-    scrollContainer.scrollTo({
-      left: clampedTarget,
-      behavior: "smooth",
+    if (reduceMotionRef.current) {
+      scrollContainer.scrollTo({ left: clampedTarget, behavior: "auto" })
+      return
+    }
+
+    gsap.to(scrollContainer, {
+      scrollLeft: clampedTarget,
+      duration: 0.8,
+      ease: "power3.out",
+      overwrite: true,
+    })
+  }
+
+  const handleProjectHover = (index: number, isHovered: boolean) => {
+    const image = imageRefs.current[index]
+    const overlay = overlayRefs.current[index]
+
+    if (!image || !overlay || reduceMotionRef.current) return
+
+    gsap.to(image, {
+      scale: isHovered ? 1.045 : 1,
+      duration: 0.7,
+      ease: "power2.out",
+      overwrite: "auto",
+    })
+    gsap.to(overlay, {
+      autoAlpha: isHovered ? 1 : 0,
+      duration: 0.5,
+      ease: "power2.out",
+      overwrite: "auto",
     })
   }
 
@@ -200,12 +266,7 @@ export function ProjectsShowcase() {
       <div ref={containerRef} className="relative z-10">
         {/* Header */}
         <div className="px-8 mb-10 max-w-7xl mx-auto">
-          <div
-            className={cn(
-              "transition-all duration-1000 ease-out",
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            )}
-          >
+          <div data-project-label>
             <span className="text-xs font-extralight tracking-[0.3em] text-warm-muted-3">
               SELECTED WORK
             </span>
@@ -233,20 +294,10 @@ export function ProjectsShowcase() {
               key={project.id}
               ref={(el) => { itemsRef.current[index] = el }}
               className="flex-shrink-0 w-[72vw] md:w-[52vw] lg:w-[38vw] snap-center px-4 group"
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
+              onMouseEnter={() => handleProjectHover(index, true)}
+              onMouseLeave={() => handleProjectHover(index, false)}
             >
-              <div
-                className={cn(
-                  "transition-all duration-1000 ease-out",
-                  isInView
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-16",
-                )}
-                style={{
-                  transitionDelay: `${index * 150 + 300}ms`,
-                }}
-              >
+              <div data-project-card>
                 {/* Project number + season */}
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-3xl font-extralight text-earth-3/30">
@@ -261,10 +312,8 @@ export function ProjectsShowcase() {
                 {/* Image container with parallax effect */}
                 <div className={cn("relative aspect-[16/10] overflow-hidden mb-5", project.contain && "bg-secondary/40")}>
                   <div
-                    className={cn(
-                      "absolute inset-0 transition-transform duration-700 ease-out",
-                      hoveredProject === project.id ? "scale-105" : "scale-100"
-                    )}
+                    ref={(el) => { imageRefs.current[index] = el }}
+                    className="absolute inset-0"
                   >
                     <Image
                       src={project.image}
@@ -277,10 +326,8 @@ export function ProjectsShowcase() {
                   
                   {/* Overlay on hover */}
                   <div
-                    className={cn(
-                      "absolute inset-0 bg-earth-1/20 transition-opacity duration-500",
-                      hoveredProject === project.id ? "opacity-100" : "opacity-0"
-                    )}
+                    ref={(el) => { overlayRefs.current[index] = el }}
+                    className="absolute inset-0 bg-earth-1/20 opacity-0"
                   />
 
                   {/* Corner accents */}

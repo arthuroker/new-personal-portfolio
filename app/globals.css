@@ -47,9 +47,30 @@
   }
 }
 
-/* Smooth scrolling for anchor links */
+/* Lenis owns smooth scrolling; keep native scrolling as the accessible fallback. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* Base color transitions */
@@ -369,9 +390,7 @@ body {
   }
 
   .fade-in-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
   }
 
   /* Hide scrollbar for horizontal scroll */

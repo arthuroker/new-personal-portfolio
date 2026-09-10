@@ -2,32 +2,44 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import AgencyHero from "@/components/hero/variations/AgencyHero"
-import { ProjectsShowcase } from "@/components/projects-showcase"
 import { SiteHeader } from "@/components/site-header"
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
   useEffect(() => {
-    // Scroll observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
+    const elements = gsap.utils.toArray<HTMLElement>(".fade-in-scroll")
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    if (reduceMotion) {
+      gsap.set(elements, { clearProps: "all" })
+      return
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const element = entry.target as HTMLElement
-          element.style.opacity = '1'
-          element.style.transform = 'translateY(0)'
-        }
+    const context = gsap.context(() => {
+      elements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { autoAlpha: 0, y: 20 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 88%",
+              once: true,
+            },
+          },
+        )
       })
-    }, observerOptions)
+    })
 
-    const elementsToObserve = document.querySelectorAll('.fade-in-scroll')
-    elementsToObserve.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
+    return () => context.revert()
   }, [])
 
   return (
@@ -52,9 +64,6 @@ export default function Home() {
         </svg>
       </div>
 
-      {/* Work Section - Design Agency Style */}
-      <ProjectsShowcase />
-
       {/* Experience Section */}
       <section id="experience" className="py-24 px-6 relative">
         {/* Paper grain texture */}
@@ -78,12 +87,12 @@ export default function Home() {
                     <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-earth-1 group-hover:w-full transition-all duration-500 ease-out" />
                   </Link>
                 </div>
-                <div>June 2026</div>
+                <div>June 2026 – Present</div>
               </div>
               <div className="md:col-span-2">
-                <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">Sales Development Representative</h3>
+                <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">GTM</h3>
                 <p className="text-warm-muted-2 text-sm leading-relaxed font-extralight tracking-[0.05em]">
-                  Incoming SDR at a premier Google Cloud Partner specializing in applied AI, web3, and cloud computing solutions.
+                  Go To Market at a premier Google Cloud Partner specializing in applied AI, web3, and cloud computing solutions.
                 </p>
               </div>
             </div>
@@ -162,7 +171,7 @@ export default function Home() {
                 <div className="md:col-span-2">
                   <h3 className="text-sm font-extralight tracking-[0.12em] text-foreground/90 mb-3">BA Computer Science & BA Philosophy</h3>
                   <p className="text-warm-muted-2 text-sm leading-relaxed font-extralight tracking-[0.05em] mb-4">
-                    GPA: 3.852/4.0
+                    GPA: 3.86/4.0
                   </p>
                   <div className="text-xs font-extralight tracking-[0.1em] text-warm-muted-3 space-y-1.5">
                     <div>Claude Builders Club — Co-President, Co-Founder</div>

@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Golos_Text, Inter, Playfair_Display, Manrope, Space_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { MotionSystem } from "@/components/motion-system"
 import "./globals.css"
 
 const golosText = Golos_Text({ subsets: ["latin"] })
@@ -38,7 +39,7 @@ export default function RootLayout({
       <body>
         {/* Font styling applied here to avoid hydration mismatch */}
         <div className={`${golosText.className} ${playfairDisplay.variable} ${manrope.variable} ${spaceMono.variable}`} style={{ '--font-inter': inter.style.fontFamily } as React.CSSProperties}>
-          {children}
+          <MotionSystem>{children}</MotionSystem>
         </div>
         <Analytics />
       </body>

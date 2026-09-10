@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
+import gsap from "gsap"
 
 type ActivePage = "home" | "writing" | "about"
 
@@ -47,6 +48,21 @@ export function SiteHeader({ activePage = "home" }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    gsap.fromTo(
+      header,
+      { autoAlpha: 0, y: -12 },
+      { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" },
+    )
+
+    return () => {
+      gsap.killTweensOf(header)
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -133,7 +149,6 @@ export function SiteHeader({ activePage = "home" }: SiteHeaderProps) {
           <div className="hidden md:flex items-center gap-10 text-xs font-extralight tracking-[0.15em]">
             {activePage === "home" && (
               <>
-                <NavLink href="#work" label="Work" active={false} />
                 <NavLink href="#experience" label="Experience" active={false} />
                 <NavLink href="#contact" label="Contact" active={false} />
               </>
@@ -152,7 +167,6 @@ export function SiteHeader({ activePage = "home" }: SiteHeaderProps) {
           <div className="flex flex-col gap-4 text-xs font-extralight tracking-[0.15em]">
             {activePage === "home" && (
               <>
-                <NavLink href="#work" label="Work" active={false} onClick={closeMobileMenu} className="w-fit" />
                 <NavLink href="#experience" label="Experience" active={false} onClick={closeMobileMenu} className="w-fit" />
                 <NavLink href="#contact" label="Contact" active={false} onClick={closeMobileMenu} className="w-fit" />
               </>

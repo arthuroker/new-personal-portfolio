@@ -1,20 +1,109 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
 
 const WORDS = ['Arthur', 'Oker']
 
 export default function AgencyHero() {
-  const shouldReduceMotion = useReducedMotion()
+  const heroRef = useRef<HTMLElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const accentRef = useRef<HTMLDivElement>(null)
+  const roleRef = useRef<HTMLDivElement>(null)
+  const dividerRef = useRef<HTMLDivElement>(null)
+  const pathRef = useRef<SVGPathElement>(null)
+  const educationRef = useRef<HTMLDivElement>(null)
+  const contactRef = useRef<HTMLDivElement>(null)
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
-  // Unified transition builder — collapses to instant when reduced motion
-  const t = (delay: number, duration = 0.9) =>
-    shouldReduceMotion
-      ? { duration: 0 }
-      : ({ duration, ease: [0.16, 1, 0.3, 1], delay } as const)
+  useEffect(() => {
+    const hero = heroRef.current
+    const title = titleRef.current
+    if (!hero || !title) return
+
+    const context = gsap.context(() => {
+      const chars = Array.from(title.querySelectorAll<HTMLElement>('.hero-char'))
+      const revealTargets = [
+        accentRef.current,
+        roleRef.current,
+        dividerRef.current,
+        educationRef.current,
+        contactRef.current,
+      ].filter((target): target is HTMLDivElement => Boolean(target))
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      if (reduceMotion) {
+        gsap.set(chars, { clearProps: 'all' })
+        gsap.set(revealTargets, { clearProps: 'all' })
+        gsap.set(scrollIndicatorRef.current, { opacity: 0.25 })
+        return
+      }
+
+      const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      const firstWordLength = WORDS[0].length
+
+      timeline
+        .from(chars.slice(0, firstWordLength), {
+          yPercent: 115,
+          duration: 0.9,
+          stagger: 0.055,
+        }, 0.3)
+        .from(chars.slice(firstWordLength), {
+          yPercent: 115,
+          duration: 0.9,
+          stagger: 0.055,
+        }, 0.85)
+        .from(accentRef.current, {
+          scaleX: 0,
+          transformOrigin: 'center',
+          duration: 1.6,
+        }, 1.6)
+        .from(roleRef.current, {
+          autoAlpha: 0,
+          y: 12,
+          duration: 1.4,
+        }, 2.1)
+        .from(dividerRef.current, {
+          autoAlpha: 0,
+          duration: 0.6,
+        }, 2.5)
+        .from(educationRef.current, {
+          autoAlpha: 0,
+          y: 12,
+          duration: 1.4,
+        }, 2.8)
+        .from(contactRef.current, {
+          autoAlpha: 0,
+          y: 12,
+          duration: 1.4,
+        }, 3.2)
+        .fromTo(scrollIndicatorRef.current,
+          { autoAlpha: 0 },
+          { autoAlpha: 0.25, duration: 1.8 },
+          3.6,
+        )
+
+      if (pathRef.current) {
+        const pathLength = pathRef.current.getTotalLength()
+
+        gsap.set(pathRef.current, {
+          strokeDasharray: pathLength,
+          strokeDashoffset: pathLength,
+        })
+        timeline.fromTo(pathRef.current,
+          { strokeDashoffset: pathLength },
+          { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' },
+          2.5,
+        )
+      }
+    }, hero)
+
+    return () => context.revert()
+  }, [])
 
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="min-h-screen relative overflow-hidden bg-background"
     >
@@ -27,47 +116,26 @@ export default function AgencyHero() {
       {/* Main content — centered */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-16">
         <div className="text-center">
-
           <h1
+            ref={titleRef}
             className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[0.2em] text-foreground"
             aria-label="Arthur Oker"
           >
             {WORDS.map((word, wi) => {
               const chars = word.split('')
-              // Each word's chars stagger from a base delay
-              // "Arthur" starts at 0.3s, "Oker" starts at 0.85s
-              const wordBase = wi === 0 ? 0.3 : 0.85
 
               return (
                 <span key={wi} className="inline-block">
-                  {chars.map((char, ci) => {
-                    const delay = wordBase + ci * 0.055
-                    return (
-                      <span
-                        key={ci}
-                        className="inline-block overflow-hidden"
-                        style={{ verticalAlign: 'bottom' }}
-                        aria-hidden="true"
-                      >
-                        <motion.span
-                          className="inline-block"
-                          initial={shouldReduceMotion ? {} : { y: '115%' }}
-                          animate={{ y: '0%' }}
-                          transition={
-                            shouldReduceMotion
-                              ? { duration: 0 }
-                              : {
-                                  duration: 0.9,
-                                  ease: [0.22, 1, 0.36, 1],
-                                  delay,
-                                }
-                          }
-                        >
-                          {char}
-                        </motion.span>
-                      </span>
-                    )
-                  })}
+                  {chars.map((char, ci) => (
+                    <span
+                      key={ci}
+                      className="inline-block overflow-hidden"
+                      style={{ verticalAlign: 'bottom' }}
+                      aria-hidden="true"
+                    >
+                      <span className="hero-char inline-block">{char}</span>
+                    </span>
+                  ))}
                   {/* Space between words */}
                   {wi < WORDS.length - 1 && (
                     <span style={{ display: 'inline-block', width: '0.35em' }} />
@@ -79,66 +147,47 @@ export default function AgencyHero() {
 
           {/* Gradient accent line */}
           <div className="h-8" />
-          <motion.div
+          <div
+            ref={accentRef}
             style={{
               height: '1px',
               background:
                 'linear-gradient(to right, transparent, hsl(var(--earth-2) / 0.55) 50%, transparent)',
               margin: '0 auto',
+              width: 160,
             }}
-            initial={{ width: 0 }}
-            animate={{ width: 160 }}
-            transition={t(1.6, 1.6)}
           />
 
           {/* Role */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={t(2.1, 1.4)}
-          >
+          <div ref={roleRef}>
             <div className="h-10" />
             <p className="text-sm font-extralight tracking-[0.18em] text-warm-muted-1">
-              Sales Development Representative at SZNS Solutions
+              GTM @ SZNS Solutions
             </p>
-          </motion.div>
+          </div>
 
           {/* Organic wavy divider — path draws itself in */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={t(2.5, 0.6)}
-          >
+          <div ref={dividerRef}>
             <div className="h-12" />
             <svg
               className="w-16 h-3 mx-auto overflow-visible"
               viewBox="0 0 60 10"
               aria-hidden="true"
             >
-              <motion.path
+              <path
+                ref={pathRef}
                 d="M0,5 C15,3 30,7 45,4 C52,3 58,5 60,5"
                 fill="none"
                 stroke="currentColor"
                 className="text-earth-3"
                 strokeWidth="0.8"
                 strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={
-                  shouldReduceMotion
-                    ? { duration: 0 }
-                    : { duration: 1.8, ease: 'easeInOut', delay: 2.5 }
-                }
               />
             </svg>
-          </motion.div>
+          </div>
 
           {/* Education */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={t(2.8, 1.4)}
-          >
+          <div ref={educationRef}>
             <div className="h-10" />
             <p className="text-xs font-extralight tracking-[0.22em] text-warm-muted-3">
               University of Virginia &apos;26
@@ -146,14 +195,10 @@ export default function AgencyHero() {
             <p className="text-[10px] font-extralight tracking-[0.18em] text-warm-muted-4 mt-1">
               Computer Science and Philosophy
             </p>
-          </motion.div>
+          </div>
 
           {/* Contact CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={t(3.2, 1.4)}
-          >
+          <div ref={contactRef}>
             <div className="h-16" />
             <a
               href="#contact"
@@ -164,21 +209,18 @@ export default function AgencyHero() {
               </span>
               <span className="w-0 h-px bg-earth-1 group-hover:w-16 transition-all duration-500 ease-out mt-2" />
             </a>
-          </motion.div>
-
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-0 pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.25 }}
-        transition={t(3.6, 1.8)}
+      <div
+        ref={scrollIndicatorRef}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-0 pointer-events-none opacity-0"
         aria-hidden="true"
       >
         <div className="w-px h-10 bg-gradient-to-b from-transparent via-earth-2 to-transparent" />
-      </motion.div>
+      </div>
     </section>
   )
 }

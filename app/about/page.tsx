@@ -19,7 +19,7 @@ export default function AboutPage() {
           {/* Main blurb */}
           <div className="space-y-8 text-sm font-extralight leading-relaxed tracking-[0.05em] text-foreground/80">
             <p>
-              I'm Arthur, currently a CS and Philosophy double major at UVA.
+              I'm Arthur, currently working in Go To Market at SZNS Solutions.
             </p>
 
             <p>
@@ -29,7 +29,7 @@ export default function AboutPage() {
             </p>
 
             <p>
-              Outside of classes I've spent time building side projects and staying on top of the latest developments in AI.
+              Outside of work I've spent time building side projects and staying on top of the latest developments in AI.
               I also like to read about the philosophy of AI, especially around superintelligence and philosophy of mind. 
               I sometime write about topics that interest me or ideas that I just need to work through.
             </p>

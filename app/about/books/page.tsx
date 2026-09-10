@@ -7,16 +7,12 @@ export const metadata: Metadata = {
   description: "A reading shelf of books Arthur Oker enjoys and recommends.",
 }
 
-const currentlyReading = [
+const recentReads = [
   {
-    title: "A World Appears",
-    subtitle: "A Journey Into Consciousness",
+    title: "A World Appears: A Journey Into Consciousness",
     url: "https://michaelpollan.com/books/a-world-appears/",
     description: "",
   },
-]
-
-const recentReads = [
   {
     title: "Human Compatible: Artificial Intelligence and the Problem of Control",
     url: "https://www.goodreads.com/book/show/44767248-human-compatible",
@@ -47,25 +43,6 @@ export default function AboutBooksPage() {
               <span>Back to About</span>
             </Link>
           </div>
-
-          <section className="space-y-4">
-            {currentlyReading.map((book) => (
-              <article key={book.title} className="text-sm leading-relaxed tracking-[0.04em] font-extralight">
-                <span className="text-foreground/40">currently reading: </span>
-                <a
-                  href={book.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-foreground/70 underline decoration-earth-1/50 underline-offset-4 transition-colors duration-500 hover:text-earth-1"
-                >
-                  {book.title}
-                  {book.subtitle && (
-                    <span>: {book.subtitle}</span>
-                  )}
-                </a>
-              </article>
-            ))}
-          </section>
 
           <section className="mt-10 space-y-4">
             <p className="text-[10px] font-extralight uppercase tracking-[0.28em] text-foreground/30">recent reads</p>
